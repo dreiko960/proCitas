@@ -1,0 +1,14 @@
+.page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 26px; flex-wrap: wrap; }
+.page-head-left { display: flex; align-items: flex-start; gap: 14px; }
+.page-back {
+  width: 42px; height: 42px; flex: none;
+  border: 2px solid var(--border); background: var(--surface);
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary); cursor: pointer;
+  transition: all 0.15s ease;
+}
+.page-back:hover { border-color: var(--primary-500); color: var(--primary-700); background: var(--primary-50); }
+.page-title { font-size: var(--fs-xl); letter-spacing: -0.02em; }
+.page-subtitle { color: var(--text-muted); margin-top: 4px; font-size: var(--fs-sm); }
+.page-head-action { display: flex; align-items: center; gap: 10px; }

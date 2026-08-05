@@ -1,0 +1,11 @@
+.pay-form-card { padding: 24px; }
+.pay-amount-box { background: var(--bg-soft); border-radius: var(--r-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.pay-side { display: flex; flex-direction: column; gap: 16px; }
+.pay-side-card { padding: 18px; }
+.pay-pv-row { padding: 8px 0; border-bottom: 1px dashed var(--border); }
+.pay-pv-row:last-child { border-bottom: none; }
+
+.receipt { display: flex; flex-direction: column; gap: 8px; }
+.receipt-head { text-align: center; }
+.receipt .row-between { padding: 4px 0; }
+.receipt-total { font-size: var(--fs-lg); border-top: 2px solid var(--text); padding-top: 10px; }

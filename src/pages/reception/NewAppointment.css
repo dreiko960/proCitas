@@ -1,0 +1,28 @@
+.pat-search-card, .pat-quick-card { padding: 24px; }
+.pat-results { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.pat-result {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  cursor: pointer;
+  font-family: var(--font);
+  text-align: left;
+  transition: all 0.15s ease;
+}
+.pat-result:hover { border-color: var(--primary-400); }
+.pat-result-selected { border-color: var(--primary-600); background: var(--primary-50); }
+.pat-check {
+  width: 26px; height: 26px; flex: none;
+  border-radius: 50%;
+  background: var(--primary-600); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.quick-create-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: none; background: transparent;
+  color: var(--primary-700); font-weight: 700; font-size: var(--fs-sm);
+  cursor: pointer; margin-top: 16px; padding: 8px 0;
+}
+.quick-create-link:hover { text-decoration: underline; }

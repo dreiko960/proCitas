@@ -1,0 +1,47 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.badge-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.badge-check { font-size: 10px; font-weight: 900; letter-spacing: -0.02em; }
+
+/* ——— Ciclo de estados de la cita (SGCM-CMAS) ——— */
+.st-agendada { color: var(--text-secondary); background: var(--surface-muted); border-color: var(--border-strong); }            /* gris neutro */
+.st-pagado { color: #15803d; background: #f0fdf4; border-color: #bbf7d0; }                                                       /* verde claro */
+.st-checkin { color: #0369a1; background: #f0f9ff; border-color: #bae6fd; }                                                     /* celeste */
+.st-triaje-espera { color: #b45309; background: #fffbeb; border-color: #fde68a; }                                               /* ámbar claro */
+.st-triaje-activo { color: #ffffff; background: #f59e0b; border-color: #f59e0b; }                                               /* ámbar sólido */
+.st-triaje-completo { color: #6d28d9; background: #f5f3ff; border-color: #ddd6fe; }                                             /* violeta claro */
+.st-atencion { color: var(--primary-800); background: var(--primary-100); border-color: var(--primary-300); }                    /* teal */
+.st-atendida { color: #15803d; background: #f0fdf4; border-color: #bbf7d0; }
+.st-documentada { color: #064e3b; background: #ecfdf5; border-color: #a7f3d0; }                                                 /* verde oscuro */
+.st-cancelada { color: var(--danger); background: var(--danger-bg); border-color: var(--danger-border); }                       /* rojo */
+.st-reprogramada { color: var(--accent-600); background: #fff7ed; border-color: #fed7aa; }                                       /* naranja */
+
+.st-pendiente { color: var(--st-pendiente-fg); background: var(--st-pendiente-bg); border-color: var(--st-pendiente-bd); }
+.st-confirmada { color: var(--st-confirmada-fg); background: var(--st-confirmada-bg); border-color: var(--st-confirmada-bd); }
+.st-pendiente-verif { color: var(--st-pendiente-fg); background: var(--st-pendiente-bg); border-color: var(--st-pendiente-bd); }
+.st-espera { color: var(--info); background: var(--info-bg); border-color: var(--info-border); }
+.st-oferta { color: var(--coral-600); background: #fff1f0; border-color: #ffd6d1; }
+.st-expirada { color: var(--text-muted); background: var(--surface-muted); border-color: var(--border); }
+.st-activa { color: var(--success); background: var(--success-bg); border-color: var(--success-border); }
+.st-inactiva { color: var(--text-muted); background: var(--surface-muted); border-color: var(--border); }
+.st-late { color: var(--warning); background: var(--warning-bg); border-color: var(--warning-border); }
+.st-success { color: var(--success); background: var(--success-bg); border-color: var(--success-border); }
+
+/* ——— Efecto "Smart Animate" al cambiar de estado ——— */
+.badge-pulse { animation: badgePulse 0.6s ease; }
+@keyframes badgePulse {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}

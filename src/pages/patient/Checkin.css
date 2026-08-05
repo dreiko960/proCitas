@@ -1,0 +1,27 @@
+.checkin-page { max-width: 640px; margin: 0 auto; }
+.checkin-card, .checkin-confirmed { padding: 30px; display: flex; flex-direction: column; gap: 16px; }
+.checkin-head { display: flex; align-items: center; gap: 16px; }
+.checkin-cal {
+  width: 58px; height: 64px; flex: none;
+  background: var(--primary-700); color: #fff;
+  border-radius: var(--r-md);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.checkin-cal strong { font-size: 22px; line-height: 1; }
+.checkin-cal span { font-size: 11px; font-weight: 700; text-transform: uppercase; opacity: 0.85; }
+.checkin-doctor { font-size: var(--fs-lg); }
+.checkin-spec { color: var(--text-muted); font-size: var(--fs-sm); }
+.checkin-info { display: flex; flex-direction: column; gap: 10px; background: var(--bg-soft); border-radius: var(--r-md); padding: 14px 16px; font-size: var(--fs-sm); color: var(--text-secondary); }
+.checkin-btn { margin-top: 6px; min-height: 56px; }
+.checkin-empty { padding: 40px; text-align: center; }
+
+.checkin-icon {
+  width: 72px; height: 72px; margin: 0 auto;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.checkin-icon.ok { background: var(--success-bg); color: var(--success); animation: pulse 1.2s ease both; }
+.checkin-confirmed { text-align: center; }
+.checkin-summary { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.checkin-summary > div { display: flex; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--border); font-size: var(--fs-sm); }
+.checkin-summary span { color: var(--text-muted); }

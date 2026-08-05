@@ -1,0 +1,24 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 56px 24px;
+  gap: 10px;
+  background: var(--bg-soft);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--r-lg);
+}
+.empty-sm { padding: 32px 20px; }
+.empty-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--primary-100);
+  color: var(--primary-700);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 6px;
+}
+.empty-sm .empty-icon { width: 56px; height: 56px; }
+.empty-title { font-size: var(--fs-md); font-weight: 800; }
+.empty-message { color: var(--text-muted); max-width: 420px; }
+.empty-action { margin-top: 12px; }

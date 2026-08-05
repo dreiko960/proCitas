@@ -1,0 +1,23 @@
+.cons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+.cons-card { display: flex; flex-direction: column; gap: 10px; transition: opacity 0.2s ease; }
+.cons-inactive { opacity: 0.6; }
+.cons-icon {
+  width: 44px; height: 44px; border-radius: var(--r-md);
+  background: var(--primary-100); color: var(--primary-800);
+  display: flex; align-items: center; justify-content: center;
+}
+.cons-specs { display: flex; flex-wrap: wrap; gap: 6px; }
+.cons-spec-chip {
+  font-size: var(--fs-xs); font-weight: 700; color: var(--primary-800);
+  background: var(--primary-50); border: 1px solid var(--primary-200);
+  padding: 4px 10px; border-radius: 99px;
+}
+.cons-spec-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.cons-spec-opt {
+  font-family: var(--font); font-size: var(--fs-sm); font-weight: 700;
+  border: 2px solid var(--border); background: var(--surface);
+  color: var(--text-secondary); padding: 7px 12px; border-radius: 99px;
+  cursor: pointer; transition: all 0.15s ease;
+}
+.cons-spec-opt:hover { border-color: var(--primary-400); color: var(--primary-800); }
+.cons-spec-opt-on { border-color: var(--primary-600); background: var(--primary-100); color: var(--primary-800); }

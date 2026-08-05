@@ -1,0 +1,21 @@
+.diag-locked {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  border-left: 4px solid var(--warning);
+  border-radius: var(--r-md);
+  padding: 14px 18px;
+  color: var(--warning);
+  margin-bottom: 18px;
+}
+.diag-form-card { padding: 24px; }
+.diag-patient { display: flex; align-items: center; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.diag-side { display: flex; flex-direction: column; gap: 16px; }
+.diag-side-card { padding: 18px; }
+.diag-state { display: flex; align-items: center; gap: 10px; }
+.diag-state-item { display: inline-flex; align-items: center; gap: 7px; font-size: var(--fs-sm); font-weight: 700; color: var(--text-muted); padding: 8px 12px; border-radius: var(--r-sm); background: var(--bg-soft); }
+.diag-state-ok { color: var(--success); background: var(--success-bg); }
+.diag-state-arrow { color: var(--text-muted); }
+@media (max-width: 768px) {
+  .diag-side { order: -1; }
+}

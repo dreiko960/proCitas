@@ -1,0 +1,45 @@
+.overlap-warning {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left: 4px solid var(--danger);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  color: var(--danger);
+  margin-bottom: 18px;
+}
+
+.avail-card { padding: 22px; overflow-x: auto; }
+.avail-grid { display: grid; grid-template-columns: 64px repeat(7, minmax(64px, 1fr)); gap: 6px; min-width: 560px; }
+.avail-hour-col { display: flex; flex-direction: column; gap: 6px; }
+.avail-hour-col > span:first-child { height: 46px; }
+.avail-hour { height: 34px; font-size: 11px; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; display: flex; align-items: center; }
+
+.avail-day-col { display: flex; flex-direction: column; gap: 6px; }
+.avail-day-head {
+  height: 46px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-radius: var(--r-sm);
+  background: var(--bg-soft);
+  font-size: 11px; font-weight: 800; text-transform: uppercase;
+}
+.avail-day-head strong { font-size: 15px; }
+.avail-day-sat { background: var(--accent-50); color: var(--accent-700); }
+
+.avail-cell {
+  height: 34px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  position: relative;
+}
+.avail-cell:hover { border-color: var(--primary-500); transform: scale(1.05); }
+.avail-on { background: var(--primary-100); border-color: var(--primary-400); }
+.avail-on:hover { background: var(--primary-200); }
+.avail-overlap { background: var(--danger-bg) !important; border-color: var(--danger) !important; box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15); }
+.avail-has-cita { position: relative; }
+.avail-cita-mark { position: absolute; top: 3px; right: 5px; font-size: 8px; color: var(--danger); }
+
+.avail-legend { display: flex; gap: 18px; margin-top: 18px; font-size: var(--fs-xs); font-weight: 700; color: var(--text-muted); }

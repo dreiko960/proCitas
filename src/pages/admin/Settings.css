@@ -1,0 +1,33 @@
+.settings-grid { grid-template-columns: 1fr 1fr; align-items: start; }
+.settings-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 16px; }
+.settings-note {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--info-bg);
+  border: 1px solid var(--info-border);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  color: var(--info);
+}
+.cal-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.cal-day {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 10px 6px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s ease;
+}
+.cal-day:hover { border-color: var(--primary-400); }
+.cal-dow { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+.cal-day strong { font-size: 18px; color: var(--text); }
+.cal-day-off { border-color: var(--danger); background: var(--danger-bg); }
+.cal-day-off strong { color: var(--danger); }
+.cal-off-tag { font-size: 9px; font-weight: 800; color: var(--danger); }
+@media (max-width: 900px) {
+  .settings-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .cal-grid { grid-template-columns: repeat(3, 1fr); }
+}

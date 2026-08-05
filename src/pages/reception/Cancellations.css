@@ -1,0 +1,12 @@
+.cancel-list { display: flex; flex-direction: column; }
+.cancel-row { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-bottom: 1px dashed var(--border); }
+.cancel-row:last-child { border-bottom: none; }
+.cancel-row:hover { background: var(--bg-soft); }
+.late-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 800;
+  color: var(--warning); background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  padding: 2px 8px; border-radius: 99px;
+  margin-top: 4px;
+}

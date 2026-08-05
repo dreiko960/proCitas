@@ -1,0 +1,23 @@
+.audit-search { min-width: 300px; }
+.audit-card { padding: 0; overflow-x: auto; }
+.audit-table { min-width: 820px; }
+.au-head, .au-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1.2fr 1.8fr 0.9fr;
+  gap: 14px; align-items: center; padding: 13px 22px;
+}
+.au-head {
+  font-size: var(--fs-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-muted); background: var(--bg-soft);
+}
+.au-row { border-top: 1px solid var(--border); }
+.audit-note {
+  display: flex; gap: 10px; align-items: flex-start;
+  margin: 14px 22px 18px; padding: 12px 14px;
+  background: var(--warning-bg); border: 1px solid var(--warning-border);
+  border-radius: var(--r-md); color: var(--warning);
+}
+.nowrap { white-space: nowrap; }
+@media (max-width: 768px) {
+  .audit-search { min-width: 100%; }
+}

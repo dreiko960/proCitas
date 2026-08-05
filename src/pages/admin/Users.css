@@ -1,0 +1,22 @@
+.users-search { min-width: 260px; }
+.users-table-card { padding: 0; overflow-x: auto; }
+.users-table { min-width: 820px; }
+.ut-head, .ut-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.3fr 1fr 1fr 40px;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 22px;
+}
+.ut-head {
+  font-size: var(--fs-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--border);
+}
+.ut-row { border-bottom: 1px solid var(--border); transition: background 0.15s ease; }
+.ut-row:last-child { border-bottom: none; }
+.ut-row:hover { background: var(--bg-soft); }
+@media (max-width: 768px) {
+  .users-search { min-width: 100%; }
+}

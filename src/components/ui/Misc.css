@@ -1,0 +1,96 @@
+.switch {
+  width: 48px;
+  height: 28px;
+  border-radius: 99px;
+  background: var(--border-strong);
+  border: none;
+  cursor: pointer;
+  padding: 3px;
+  transition: background 0.2s ease;
+  position: relative;
+  flex: none;
+}
+.switch-knob {
+  display: block;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.switch-on { background: var(--primary-600); }
+.switch-on .switch-knob { transform: translateX(20px); }
+.switch:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 800;
+  color: #fff;
+  position: relative;
+  flex: none;
+}
+.avatar-online {
+  position: absolute;
+  right: -1px; bottom: -1px;
+  width: 12px; height: 12px;
+  background: var(--success);
+  border: 2.5px solid #fff;
+  border-radius: 50%;
+}
+
+/* ——— Steps ——— */
+.steps { display: flex; align-items: flex-start; gap: 0; list-style: none; }
+.step { display: flex; align-items: center; gap: 10px; flex: 1; position: relative; }
+.step-num {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--surface-muted);
+  border: 2px solid var(--border-strong);
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  flex: none;
+  transition: all 0.2s ease;
+}
+.step-label { font-size: var(--fs-sm); font-weight: 700; color: var(--text-muted); }
+.step-done .step-num { background: var(--primary-600); border-color: var(--primary-600); color: #fff; }
+.step-done .step-label { color: var(--primary-700); }
+.step-active .step-num {
+  background: var(--primary-700);
+  border-color: var(--primary-700);
+  color: #fff;
+  box-shadow: 0 0 0 5px var(--primary-100);
+  animation: pulse 2s infinite;
+}
+.step-active .step-label { color: var(--text); }
+.step-line {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  margin: 0 14px;
+  border-radius: 3px;
+  min-width: 20px;
+}
+.step-done .step-line, .step-done ~ .step .step-line { background: var(--primary-300); }
+
+/* ——— Progress ——— */
+.progress {
+  height: 10px;
+  background: var(--surface-muted);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--primary-500);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bar-accent { background: var(--coral-500); }
+.bar-success { background: var(--success); }
+.bar-danger { background: var(--danger); }

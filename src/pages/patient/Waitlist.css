@@ -1,0 +1,45 @@
+.wl-urgent-banner {
+  display: flex; align-items: center; gap: 16px;
+  background: linear-gradient(135deg, var(--coral-600), var(--coral-500));
+  color: #fff;
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-coral);
+  text-decoration: none;
+  animation: fadeIn 0.4s ease;
+}
+.wl-urgent-banner:hover { text-decoration: none; filter: brightness(1.05); }
+.wl-urgent-banner .bold { color: #fff; }
+.wl-urgent-banner .small { color: rgba(255, 255, 255, 0.9); }
+.wl-urgent-pulse {
+  width: 18px; height: 18px; flex: none;
+  border-radius: 50%;
+  background: #fff;
+  animation: pulse 1.2s infinite;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.25);
+}
+.wl-urgent-go { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: var(--fs-sm); }
+
+.wl-list { display: flex; flex-direction: column; gap: 14px; }
+.wl-entry { padding: 0; overflow: hidden; }
+.wl-entry-offer { border-color: var(--coral-400); box-shadow: var(--shadow-md); }
+.wl-entry-head { display: flex; align-items: center; gap: 14px; padding: 18px 20px; }
+.wl-entry-icon {
+  width: 42px; height: 42px; flex: none;
+  border-radius: var(--r-md);
+  background: var(--primary-100); color: var(--primary-700);
+  display: flex; align-items: center; justify-content: center;
+}
+.wl-entry-body { padding: 0 20px 20px; }
+
+.wl-position { display: flex; flex-direction: column; gap: 8px; }
+.wl-position-bar { height: 10px; background: var(--surface-muted); border-radius: 99px; overflow: hidden; }
+.wl-position-fill {
+  width: 66%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-600), var(--primary-400));
+  border-radius: 99px;
+  animation: shimmer 3s infinite linear;
+}
+.wl-position-num { font-weight: 800; color: var(--primary-800); }

@@ -1,0 +1,7 @@
+.profile-side { padding: 28px 22px; }
+.profile-side-info { display: flex; flex-direction: column; gap: 12px; font-size: var(--fs-sm); color: var(--text-secondary); }
+.profile-form-card { padding: 26px; }
+@media (max-width: 768px) {
+  .grid[style*="280px"] { grid-template-columns: 1fr !important; }
+  .grid[style*="1fr 1fr"] { grid-template-columns: 1fr !important; }
+}

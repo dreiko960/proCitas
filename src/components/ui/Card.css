@@ -1,0 +1,52 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+.card-selected {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 20px 22px 0; }
+.card-header-left { display: flex; align-items: center; gap: 12px; }
+.card-header-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--r-md);
+  background: var(--primary-100);
+  color: var(--primary-700);
+  display: flex; align-items: center; justify-content: center;
+  flex: none;
+}
+.card-title { font-size: var(--fs-md); font-weight: 800; }
+.card-subtitle { font-size: var(--fs-sm); color: var(--text-muted); }
+
+/* ——— Stat cards ——— */
+.stat-card { display: flex; align-items: flex-start; gap: 16px; padding: 20px 22px; }
+.stat-icon {
+  width: 48px; height: 48px;
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  flex: none;
+}
+.tone-primary { background: var(--primary-100); color: var(--primary-700); }
+.tone-accent { background: #fff1f0; color: var(--coral-600); }
+.tone-warning { background: var(--warning-bg); color: var(--warning); }
+.tone-success { background: var(--success-bg); color: var(--success); }
+.tone-info { background: var(--info-bg); color: var(--info); }
+.tone-documentada { background: var(--st-documentada-bg); color: var(--st-documentada-fg); }
+
+.stat-body { display: flex; flex-direction: column; gap: 2px; }
+.stat-label { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.stat-value { font-size: var(--fs-xl); font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+.stat-sub { font-size: var(--fs-sm); color: var(--text-muted); }
+.stat-trend { font-size: var(--fs-xs); font-weight: 700; }
+.t-up { color: var(--success); }
+.t-down { color: var(--danger); }

@@ -1,0 +1,27 @@
+.pay-list { display: flex; flex-direction: column; gap: 14px; max-width: 760px; }
+.pay-card { padding: 20px 22px; }
+.pay-head { display: flex; align-items: center; gap: 14px; }
+.pay-icon {
+  width: 42px; height: 42px; flex: none;
+  border-radius: var(--r-md);
+  background: var(--success-bg); color: var(--success);
+  display: flex; align-items: center; justify-content: center;
+}
+.pay-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-top: 14px; padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.pay-pending-note {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: var(--warning); font-size: var(--fs-sm); font-weight: 700;
+}
+.pay-declare-note {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  color: var(--warning);
+  margin-top: 16px;
+}

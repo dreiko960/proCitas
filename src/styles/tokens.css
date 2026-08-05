@@ -1,0 +1,103 @@
+:root {
+  /* ——— Paleta primaria: teal profundo (salud + confianza) ——— */
+  --primary-50: #f0fdfa;
+  --primary-100: #ccfbf1;
+  --primary-200: #99f6e4;
+  --primary-300: #5eead4;
+  --primary-400: #2dd4bf;
+  --primary-500: #14b8a6;
+  --primary-600: #0d9488;
+  --primary-700: #0f766e;
+  --primary-800: #115e59;
+  --primary-900: #134e4a;
+  --primary-950: #042f2e;
+
+  /* ——— Acento cálido: ámbar/coral para CTA y alertas de disponibilidad ——— */
+  --accent-50: #fff7ed;
+  --accent-100: #ffedd5;
+  --accent-200: #fed7aa;
+  --accent-300: #fdba74;
+  --accent-400: #fb923c;
+  --accent-500: #f97316;
+  --accent-600: #ea580c;
+  --accent-700: #c2410c;
+
+  --coral-400: #ff7a6e;
+  --coral-500: #ff6b5e;
+  --coral-600: #ef5347;
+
+  /* ——— Neutrales cálidos (no gris frío) ——— */
+  --bg: #f6f5f2;
+  --bg-soft: #fbfaf8;
+  --surface: #ffffff;
+  --surface-muted: #f1efea;
+  --text: #1e2b29;
+  --text-secondary: #4b5a57;
+  --text-muted: #7b8a86;
+  --border: #e4e2da;
+  --border-strong: #d4d2c8;
+
+  /* ——— Estados ——— */
+  --success: #16a34a;
+  --success-bg: #f0fdf4;
+  --success-border: #bbf7d0;
+  --warning: #d97706;
+  --warning-bg: #fffbeb;
+  --warning-border: #fde68a;
+  --danger: #dc2626;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+  --info: #0e7490;
+  --info-bg: #ecfeff;
+  --info-border: #a5f3fc;
+
+  /* ——— Badges por estado de cita ——— */
+  --st-pendiente-fg: #b45309;
+  --st-pendiente-bg: #fef3c7;
+  --st-pendiente-bd: #fde68a;
+  --st-confirmada-fg: #0f766e;
+  --st-confirmada-bg: #f0fdfa;
+  --st-confirmada-bd: #99f6e4;
+  --st-atendida-fg: #15803d;
+  --st-atendida-bg: #f0fdf4;
+  --st-atendida-bd: #bbf7d0;
+  --st-documentada-fg: #6d28d9;
+  --st-documentada-bg: #f5f3ff;
+  --st-documentada-bd: #ddd6fe;
+  --st-cancelada-fg: #b91c1c;
+  --st-cancelada-bg: #fef2f2;
+  --st-cancelada-bd: #fecaca;
+  --st-reprogramada-fg: #c2410c;
+  --st-reprogramada-bg: #fff7ed;
+  --st-reprogramada-bd: #fed7aa;
+
+  /* ——— Tipografía ——— */
+  --font: 'Manrope', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 1.75rem;
+  --fs-2xl: 2.25rem;
+  --fs-3xl: 3rem;
+
+  /* ——— Radii ——— */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+  --r-full: 999px;
+
+  /* ——— Sombras ——— */
+  --shadow-sm: 0 1px 2px rgba(19, 78, 74, 0.06);
+  --shadow-md: 0 4px 12px rgba(19, 78, 74, 0.08);
+  --shadow-lg: 0 12px 32px rgba(19, 78, 74, 0.14);
+  --shadow-coral: 0 6px 18px rgba(239, 83, 71, 0.35);
+
+  /* ——— Layout ——— */
+  --sidebar-w: 260px;
+  --topbar-h: 68px;
+  --max-w: 1240px;
+  --touch: 44px;
+}
