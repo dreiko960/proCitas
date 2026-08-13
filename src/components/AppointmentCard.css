@@ -37,6 +37,15 @@
 .appt-reason { font-size: var(--fs-sm); color: var(--text-secondary); background: var(--bg-soft); border-radius: var(--r-sm); padding: 8px 12px; }
 .appt-meta { gap: 18px; font-size: var(--fs-sm); color: var(--text-muted); }
 .appt-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.pay-chip {
+  flex: none;
+  font-size: 11px; font-weight: 800;
+  color: var(--primary-700);
+  background: var(--primary-100);
+  border: 1px solid var(--primary-200);
+  border-radius: 99px;
+  padding: 3px 10px;
+}
 .appt-expand {
   align-self: center;
   width: 34px; height: 34px;

@@ -1,4 +1,14 @@
 .pay-form-card { padding: 24px; }
+.pay-left { display: flex; flex-direction: column; gap: 20px; }
+.pay-balance-list { display: flex; flex-direction: column; gap: 10px; }
+.pay-balance-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-soft);
+}
+.text-danger { color: var(--danger); }
 .pay-amount-box { background: var(--bg-soft); border-radius: var(--r-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
 .pay-side { display: flex; flex-direction: column; gap: 16px; }
 .pay-side-card { padding: 18px; }
@@ -9,3 +19,9 @@
 .receipt-head { text-align: center; }
 .receipt .row-between { padding: 4px 0; }
 .receipt-total { font-size: var(--fs-lg); border-top: 2px solid var(--text); padding-top: 10px; }
+
+@media (max-width: 480px) {
+  .pay-form-card { padding: 18px; }
+  .pay-side-card { padding: 16px; }
+  .pay-balance-row { flex-wrap: wrap; }
+}

@@ -48,3 +48,9 @@
 .rec-cita:hover { background: var(--bg-soft); }
 .rec-cita-time { font-weight: 800; color: var(--primary-800); font-variant-numeric: tabular-nums; min-width: 48px; }
 .rec-cita.st-atendida { background: var(--success-bg); }
+
+@media (max-width: 480px) {
+  .rec-doctor-head { flex-wrap: wrap; gap: 10px; padding: 14px 16px; }
+  .rec-cita { flex-wrap: wrap; gap: 8px; padding: 12px 14px; }
+  .rec-cita .badge { margin-left: auto; }
+}

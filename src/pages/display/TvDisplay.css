@@ -1,0 +1,195 @@
+.tv {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(1200px 500px at 80% -10%, rgba(20, 184, 166, 0.25), transparent 60%),
+    linear-gradient(160deg, #04302e 0%, #0b4f4a 55%, #0a3f3c 100%);
+  color: #eafffc;
+  overflow: hidden;
+}
+
+/* ——— Encabezado ——— */
+.tv-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(4, 48, 46, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.tv-brand { display: flex; align-items: center; gap: 16px; }
+.tv-brand-divider { width: 1px; height: 26px; background: rgba(255, 255, 255, 0.18); }
+.tv-brand-sub { font-size: 0.95rem; letter-spacing: 0.04em; color: rgba(234, 255, 252, 0.75); font-weight: 600; }
+
+.tv-clock { text-align: right; }
+.tv-date { font-size: 0.95rem; text-transform: capitalize; color: rgba(234, 255, 252, 0.75); }
+.tv-time {
+  font-size: 2rem; font-weight: 800; line-height: 1.1;
+  font-variant-numeric: tabular-nums; letter-spacing: 0.02em;
+  color: #fff;
+}
+
+.tv-head-right { display: flex; align-items: center; gap: 14px; }
+.tv-attended {
+  font-size: 0.9rem; color: rgba(234, 255, 252, 0.8);
+  padding: 8px 14px; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px;
+}
+.tv-attended strong { color: #5eead4; font-size: 1.05rem; }
+.tv-demo-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(234, 255, 252, 0.85);
+  font-weight: 700; font-size: 0.8rem;
+  padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  transition: background 0.15s ease;
+}
+.tv-demo-btn:hover { background: rgba(255, 255, 255, 0.15); }
+.tv-demo-on { background: rgba(94, 234, 212, 0.18); border-color: #2dd4bf; color: #99f6e4; }
+.tv-exit {
+  color: rgba(234, 255, 252, 0.6); font-size: 0.8rem; font-weight: 600;
+  border: 1px solid transparent; padding: 8px 10px; border-radius: 999px;
+}
+.tv-exit:hover { color: #fff; border-color: rgba(255, 255, 255, 0.25); text-decoration: none; }
+
+/* ——— Cuerpo ——— */
+.tv-body {
+  flex: 1;
+  padding: 30px 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  min-height: 0;
+}
+
+.tv-now-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.tv-now {
+  position: relative;
+  border-radius: 24px;
+  padding: 28px 30px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  min-height: 240px;
+  justify-content: center;
+}
+
+.tv-triage { border-color: rgba(94, 234, 212, 0.55); box-shadow: 0 0 42px rgba(45, 212, 191, 0.25), inset 0 0 60px rgba(45, 212, 191, 0.08); }
+.tv-consulta { border-color: rgba(255, 122, 110, 0.6); box-shadow: 0 0 42px rgba(255, 122, 110, 0.28), inset 0 0 60px rgba(255, 122, 110, 0.08); }
+
+.tv-now-label {
+  font-size: 0.95rem; font-weight: 800; letter-spacing: 0.16em;
+  color: rgba(234, 255, 252, 0.65);
+  margin-bottom: 8px;
+}
+
+.tv-now-num {
+  font-size: clamp(4rem, 9vw, 7.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  animation: tvPulse 2.4s ease-in-out infinite;
+}
+
+.tv-now-name { font-size: 1.7rem; font-weight: 800; color: #fff; margin-top: 6px; }
+.tv-now-room {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 1.05rem; color: #b7f5ec; font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 7px 16px; border-radius: 999px;
+}
+.tv-now-tag {
+  margin-top: 10px;
+  font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: #5eead4;
+}
+.tv-consulta .tv-now-tag { color: #ffb3ab; }
+.tv-now-empty {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  color: rgba(234, 255, 252, 0.4);
+  font-size: 1.05rem;
+}
+.tv-now-empty p { color: rgba(234, 255, 252, 0.45); }
+
+@keyframes tvPulse {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 22px rgba(94, 234, 212, 0.5); }
+  50% { transform: scale(1.035); text-shadow: 0 0 46px rgba(94, 234, 212, 0.85); }
+}
+.tv-consulta .tv-now-num { animation-name: tvPulseCoral; }
+@keyframes tvPulseCoral {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 22px rgba(255, 122, 110, 0.5); }
+  50% { transform: scale(1.035); text-shadow: 0 0 46px rgba(255, 122, 110, 0.85); }
+}
+
+/* ——— Siguientes ——— */
+.tv-next-title {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 0.9rem; font-weight: 800; letter-spacing: 0.14em;
+  color: rgba(234, 255, 252, 0.6);
+}
+.tv-next-hl { font-size: 1rem; letter-spacing: 0.02em; color: #fff; }
+.tv-next-hl strong {
+  font-size: 1.6rem; color: #5eead4; margin-left: 6px; font-variant-numeric: tabular-nums;
+}
+
+.tv-list { display: flex; flex-direction: column; gap: 10px; }
+.tv-empty { color: rgba(234, 255, 252, 0.45); font-size: 1rem; }
+
+.tv-row {
+  display: grid;
+  grid-template-columns: 44px 92px 1fr auto 160px;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 12px 18px;
+  font-size: 1.05rem;
+}
+.tv-row-dim { opacity: 0.6; }
+.tv-row-idx {
+  color: rgba(234, 255, 252, 0.5);
+  font-weight: 800; font-variant-numeric: tabular-nums;
+}
+.tv-row-num {
+  font-size: 1.5rem; font-weight: 800; color: #99f6e4; font-variant-numeric: tabular-nums;
+}
+.tv-row-name { font-weight: 700; color: #fff; }
+.tv-row-meta { font-size: 0.9rem; color: rgba(234, 255, 252, 0.7); text-align: right; }
+.tv-row-room { text-align: right; color: #ffb3ab; font-weight: 700; }
+
+/* ——— Pie ——— */
+.tv-foot {
+  padding: 14px 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+.tv-foot-live {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 0.82rem; letter-spacing: 0.1em; font-weight: 700; text-transform: uppercase;
+  color: rgba(234, 255, 252, 0.6);
+}
+.tv-foot-dot { width: 9px; height: 9px; border-radius: 50%; background: #34d399; animation: pulseDot 1.2s infinite; box-shadow: 0 0 12px #34d399; }
+
+@media (max-width: 900px) {
+  .tv-now-grid { grid-template-columns: 1fr; }
+  .tv-row { grid-template-columns: 32px 70px 1fr 120px; }
+  .tv-row-room { display: none; }
+  .tv-head { flex-wrap: wrap; }
+}

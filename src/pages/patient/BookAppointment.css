@@ -116,6 +116,45 @@
 .confirm-rows { display: flex; flex-direction: column; margin-bottom: 18px; }
 .confirm-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--border); font-size: var(--fs-sm); }
 .confirm-row strong { text-align: right; }
+
+/* ——— Plan de pago anticipado ——— */
+.pay-plan {
+  margin-bottom: 18px;
+  padding: 16px;
+  background: var(--primary-50);
+  border: 1px solid var(--primary-200);
+  border-radius: var(--r-lg);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.pay-plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pay-plan-opt {
+  position: relative;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+  padding: 14px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  font-family: var(--font);
+  text-align: left;
+  transition: all 0.15s ease;
+}
+.pay-plan-opt:hover { border-color: var(--primary-400); box-shadow: var(--shadow-sm); }
+.pay-plan-opt-selected { border-color: var(--primary-600); background: #fff; box-shadow: 0 0 0 3px var(--primary-100); }
+.pay-plan-reco {
+  position: absolute; top: -9px; left: 10px;
+  background: var(--accent-500); color: #fff;
+  font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 2px 8px; border-radius: 99px;
+}
+.pay-plan-amount { font-size: 20px; font-weight: 800; color: var(--primary-800); }
+.pay-plan-name { font-size: var(--fs-sm); font-weight: 800; color: var(--text); }
+.pay-plan-opt small { font-size: var(--fs-xs); color: var(--text-muted); line-height: 1.35; }
+.pay-plan-secure {
+  gap: 8px; justify-content: center;
+  font-size: 11px; color: var(--text-muted); margin-top: 2px;
+}
+.pay-plan-secure svg { color: var(--success); flex: none; }
 .conflict-toggle {
   display: flex; align-items: flex-start; gap: 12px;
   margin-top: 14px;
@@ -173,9 +212,14 @@
 
 @media (max-width: 768px) {
   .spec-pick-grid { grid-template-columns: 1fr 1fr; }
+  .pay-plan-grid { grid-template-columns: 1fr; }
   .grid > * { grid-column: 1 / -1; }
 }
 @media (max-width: 480px) {
   .spec-pick-grid { grid-template-columns: 1fr; }
   .calendar-legend { display: none; }
+  .calendar-card, .confirm-card, .done-card { padding: 20px 18px; }
+  .doc-row { flex-wrap: wrap; gap: 12px; padding: 14px 16px; }
+  .confirm-row { flex-direction: column; gap: 4px; }
+  .confirm-row strong { text-align: left; }
 }

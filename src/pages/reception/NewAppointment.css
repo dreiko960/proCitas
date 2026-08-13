@@ -26,3 +26,8 @@
   cursor: pointer; margin-top: 16px; padding: 8px 0;
 }
 .quick-create-link:hover { text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .pat-search-card, .pat-quick-card { padding: 18px; }
+  .pat-result { flex-wrap: wrap; gap: 10px; }
+}

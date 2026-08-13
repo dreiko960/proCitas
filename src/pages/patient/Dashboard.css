@@ -10,6 +10,9 @@
   margin-bottom: 22px;
   color: var(--warning);
 }
+@media (max-width: 480px) {
+  .pay-reminder { flex-wrap: wrap; }
+}
 
 .next-card {
   padding: 26px;

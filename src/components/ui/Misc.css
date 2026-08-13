@@ -78,6 +78,13 @@
 }
 .step-done .step-line, .step-done ~ .step .step-line { background: var(--primary-300); }
 
+@media (max-width: 480px) {
+  .step { gap: 6px; }
+  .step-num { width: 30px; height: 30px; font-size: var(--fs-xs); }
+  .step-label { font-size: 11px; }
+  .step-line { margin: 0 8px; min-width: 12px; }
+}
+
 /* ——— Progress ——— */
 .progress {
   height: 10px;

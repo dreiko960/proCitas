@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Badge from './ui/Badge'
 import { Avatar } from './ui/Misc'
-import { findDoctor, findSpecialty, findConsultorio, fmtDate, fmtPrice } from '../utils/helpers'
+import { findDoctor, findSpecialty, findConsultorio, fmtDate, fmtPrice, fmtPayType } from '../utils/helpers'
 import { IconClock, IconCalendar, IconChevronRight, IconMapPin } from './Icons'
 import './AppointmentCard.css'
 
@@ -29,6 +29,7 @@ export default function AppointmentCard({
             </div>
           </div>
           <Badge status={appt.status} />
+          {appt.paidType && <span className="pay-chip">{fmtPayType(appt.paidType)}</span>}
         </div>
         {appt.reason && <p className="appt-reason">{appt.reason}</p>}
         <div className="row appt-meta">

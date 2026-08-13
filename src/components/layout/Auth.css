@@ -99,3 +99,6 @@
 @media (max-width: 768px) {
   .auth-page { grid-template-columns: 1fr; }
 }
+@media (max-width: 480px) {
+  .auth-form-side { padding: 24px 16px; }
+}

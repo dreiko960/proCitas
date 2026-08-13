@@ -84,6 +84,21 @@ export const STATUS_LABEL = {
   confirmada: 'Confirmada',
 }
 
+export const PAY_TYPE_LABEL = {
+  adelanto: 'Abono 50%',
+  total: 'Pago total',
+}
+
+export function fmtPayType(t) {
+  return PAY_TYPE_LABEL[t] || t || ''
+}
+
+export function paidTotalOf(appointmentId, payments) {
+  return payments
+    .filter((p) => p.appointmentId === appointmentId && p.status === 'pagado')
+    .reduce((acc, p) => acc + (Number(p.amount) || 0), 0)
+}
+
 export function findConsultorio(consultorios, id) {
   return consultorios.find((c) => c.id === id)
 }

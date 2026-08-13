@@ -37,3 +37,13 @@
 .pd-triage-box > div span { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
 .pd-triage-box > div strong { font-size: var(--fs-sm); color: var(--text); }
 .pd-triage-note { grid-column: span 3; font-size: var(--fs-sm); color: var(--text-secondary); background: var(--surface); border-radius: var(--r-sm); padding: 8px 10px; margin: 0; }
+
+@media (max-width: 480px) {
+  .pd-summary { padding: 18px; }
+  .pd-hist-head { flex-wrap: wrap; gap: 8px; padding: 16px 16px 0; }
+  .pd-hist { padding: 8px 16px 16px; }
+  .pd-hist-row { flex-wrap: wrap; gap: 10px; }
+  .pd-triage-box { grid-template-columns: repeat(2, 1fr); }
+  .pd-triage-note { grid-column: span 2; }
+  .denied-card { padding: 28px 20px; }
+}

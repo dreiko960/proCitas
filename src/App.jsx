@@ -39,6 +39,9 @@ import ReceptionCheckin from './pages/reception/Checkin'
 import ReceptionPayment from './pages/reception/Payment'
 import ReceptionCancellations from './pages/reception/Cancellations'
 
+import WaitingQueue from './pages/queue/WaitingQueue'
+import TvDisplay from './pages/display/TvDisplay'
+
 import AdminDashboard from './pages/admin/Dashboard'
 import AdminUsers from './pages/admin/Users'
 import AdminSpecialties from './pages/admin/Specialties'
@@ -63,6 +66,9 @@ export default function App() {
       <Route path="/disponibilidad" element={<SearchAvailability />} />
       <Route path="/componentes" element={<Components />} />
 
+      {/* ——— Pantalla de TV de la clínica (sin panel) ——— */}
+      <Route path="/tv" element={<TvDisplay />} />
+
       {/* ——— Paneles por rol ——— */}
       <Route element={<PanelLayout />}>
         <Route path="/paciente" element={<PatientDashboard />} />
@@ -86,12 +92,14 @@ export default function App() {
         <Route path="/enfermeria" element={<TriageQueue />} />
         <Route path="/enfermeria/triaje/:cid" element={<TriageForm />} />
         <Route path="/enfermeria/historial" element={<TriageHistory />} />
+        <Route path="/enfermeria/lista-espera" element={<WaitingQueue />} />
 
         <Route path="/recepcion" element={<ReceptionAgenda />} />
         <Route path="/recepcion/nueva-cita" element={<ReceptionNewAppointment />} />
         <Route path="/recepcion/checkin" element={<ReceptionCheckin />} />
         <Route path="/recepcion/pago" element={<ReceptionPayment />} />
         <Route path="/recepcion/cancelaciones" element={<ReceptionCancellations />} />
+        <Route path="/recepcion/lista-espera" element={<WaitingQueue />} />
 
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/usuarios" element={<AdminUsers />} />

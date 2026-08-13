@@ -156,5 +156,6 @@
 
 @media (max-width: 768px) {
   .panel-content { padding: 20px 16px 96px; }
-  .topbar { padding: 0 16px; }
+  .topbar { padding: 0 16px; gap: 10px; }
+  .topbar-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }

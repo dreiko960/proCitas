@@ -8,7 +8,7 @@ import {
   IconHome, IconCalendar, IconCalendarPlus, IconHistory, IconListCheck, IconWallet,
   IconClock, IconSliders, IconFileText, IconStethoscope, IconUser, IconUsers,
   IconGraph, IconSettings, IconShield, IconLogout, IconCheckCircle, IconCreditCard,
-  IconMenu, IconX, IconFirstAid, IconBuilding,
+  IconMenu, IconX, IconFirstAid, IconBuilding, IconMonitor,
 } from '../Icons'
 import './PanelLayout.css'
 import { useState } from 'react'
@@ -30,12 +30,14 @@ const NAV = {
   ],
   enfermera: [
     { to: '/enfermeria', label: 'Cola de triaje', icon: IconFirstAid, highlight: true },
+    { to: '/enfermeria/lista-espera', label: 'Lista de espera', icon: IconMonitor, highlight: true },
     { to: '/enfermeria/historial', label: 'Triajes del turno', icon: IconListCheck },
   ],
   recepcionista: [
     { to: '/recepcion', label: 'Agenda general', icon: IconCalendar },
     { to: '/recepcion/nueva-cita', label: 'Registrar cita', icon: IconCalendarPlus },
     { to: '/recepcion/checkin', label: 'Check-in presencial', icon: IconCheckCircle },
+    { to: '/recepcion/lista-espera', label: 'Lista de espera', icon: IconMonitor, highlight: true },
     { to: '/recepcion/pago', label: 'Registrar pago', icon: IconCreditCard },
     { to: '/recepcion/cancelaciones', label: 'Cancelaciones', icon: IconX },
   ],

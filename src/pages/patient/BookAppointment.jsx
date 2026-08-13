@@ -9,12 +9,13 @@ import { Textarea, Input } from '../../components/ui/Field'
 import Badge from '../../components/ui/Badge'
 import { Avatar } from '../../components/ui/Misc'
 import EmptyState from '../../components/ui/EmptyState'
+import PaymentGateway from '../../components/PaymentGateway'
 import { useApp } from '../../context/AppContext'
 import { useToast } from '../../components/ui/Toast'
-import { SpecialtyIcon, findDoctor, findSpecialty, findConsultorio, consultorioOf, fmtDate, fmtDateFull, fmtPrice } from '../../utils/helpers'
+import { SpecialtyIcon, findDoctor, findSpecialty, findConsultorio, consultorioOf, fmtDate, fmtDateFull, fmtPrice, fmtPayType } from '../../utils/helpers'
 import {
   IconChevronLeft, IconChevronRight, IconCalendar, IconClock, IconCheck, IconAlertTriangle,
-  IconRefresh, IconUser, IconCalendarCheck, IconStar,
+  IconRefresh, IconUser, IconCalendarCheck, IconStar, IconCreditCard, IconShield,
 } from '../../components/Icons'
 import './BookAppointment.css'
 
@@ -29,7 +30,7 @@ const WEEK = [
 ]
 
 export default function PatientBook() {
-  const { doctors, specialties, appointments, consultorios, bookAppointment, auth } = useApp()
+  const { doctors, specialties, appointments, consultorios, bookAppointment, addPayment, auth } = useApp()
   const toast = useToast()
   const navigate = useNavigate()
 
@@ -43,10 +44,16 @@ export default function PatientBook() {
   const [conflict, setConflict] = useState(null)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [done, setDone] = useState(null)
+  const [donePay, setDonePay] = useState(null)
+  const [payPlan, setPayPlan] = useState('adelanto')
+  const [gatewayOpen, setGatewayOpen] = useState(false)
+  const [gatewayMeta, setGatewayMeta] = useState(null)
 
   const specDoctors = useMemo(() => doctors.filter((d) => d.specialtyId === specialtyId), [doctors, specialtyId])
   const doctor = findDoctor(doctors, doctorId)
   const spec = findSpecialty(specialties, specialtyId)
+  const price = spec?.price || 0
+  const halfPrice = Math.round(price / 2)
 
   const takenKeys = useMemo(() => {
     const s = new Set()
@@ -68,14 +75,42 @@ export default function PatientBook() {
       setConfirmOpen(false)
       return
     }
+    setConfirmOpen(false)
+    if (payPlan !== 'reception') {
+      setGatewayMeta({
+        label: payPlan === 'adelanto' ? 'Abono 50%' : 'Pago total',
+        amount: payPlan === 'adelanto' ? halfPrice : price,
+      })
+      setGatewayOpen(true)
+      return
+    }
+    finalizeBooking(null)
+  }
+
+  const finalizeBooking = (payInfo) => {
     const id = bookAppointment({
       patientId: auth.user.id, doctorId, specialtyId,
-      date: slot.date, time: slot.time, duration: 30, status: 'agendada',
+      date: slot.date, time: slot.time, duration: 30,
+      status: payInfo ? 'pagada' : 'agendada',
+      paidType: payInfo ? payInfo.type : null,
       reason: reason || 'Consulta general',
     })
-    setConfirmOpen(false)
+    if (payInfo) {
+      addPayment({
+        appointmentId: id, patientId: auth.user.id, amount: payInfo.amount,
+        method: 'Tarjeta (pasarela)', status: 'pagado', paidType: payInfo.type,
+        gateway: true, opRef: payInfo.opRef, verifiedBy: 'Sistema',
+      })
+    }
+    setGatewayOpen(false)
     setDone(id)
-    toast('Cita agendada. Realiza el pago en caja para activar tu check-in.', { type: 'success', title: '¡Cita reservada!' })
+    setDonePay(payInfo ? { ...payInfo, label: fmtPayType(payInfo.type) } : null)
+    toast(
+      payInfo
+        ? `Pago de ${fmtPayType(payInfo.type)} aprobado. Tu cita quedó asegurada para el check-in.`
+        : 'Cita agendada. Realiza el pago en caja para activar tu check-in.',
+      { type: 'success', title: payInfo ? '¡Pago exitoso!' : '¡Cita reservada!' }
+    )
   }
 
   const alternativeSlots = useMemo(() => {
@@ -105,13 +140,28 @@ export default function PatientBook() {
         <Card className="done-card">
           <span className="done-icon"><IconCheck size={34} /></span>
           <h2>Tu cita quedó agendada</h2>
-          <p className="muted">El horario quedó bloqueado para ti. Paga en caja el mismo día para activar tu check-in.</p>
+          {donePay ? (
+            <p className="muted">
+              Pagaste <strong>{donePay.label} ({fmtPrice(donePay.amount)})</strong> por la pasarela. Tu cita está
+              {donePay.type === 'adelanto' ? ' asegurada y podrás hacer check-in sin pasar por caja' : ' pagada al 100%'}. Llega 10 minutos antes con tu DNI.
+            </p>
+          ) : (
+            <p className="muted">El horario quedó bloqueado para ti. Paga en caja el mismo día para activar tu check-in.</p>
+          )}
           <div className="done-summary">
             <div><span>Médico</span><strong>{doctor.name}</strong></div>
             <div><span>Especialidad</span><strong>{spec.name}</strong></div>
             <div><span>Consultorio</span><strong>{room?.nombre || '—'} · {room?.piso || ''}</strong></div>
             <div><span>Fecha</span><strong>{fmtDateFull(slot.date)}</strong></div>
-            <div><span>Hora</span><strong>{slot.time} ({spec?.price && `Pago: ${fmtPrice(spec.price)}`})</strong></div>
+            <div><span>Hora</span><strong>{slot.time} · 30 min</strong></div>
+            <div><span>Costo</span><strong>{fmtPrice(price)}</strong></div>
+            {donePay && (
+              <>
+                <div><span>Pago en línea</span><strong>{donePay.label} · {fmtPrice(donePay.amount)}</strong></div>
+                {donePay.type === 'adelanto' && <div><span>Saldo en caja</span><strong>{fmtPrice(price - donePay.amount)}</strong></div>}
+                <div><span>Operación</span><strong>{donePay.opRef}</strong></div>
+              </>
+            )}
             <div><span>Cita N°</span><strong>{done}</strong></div>
           </div>
           <div className="row" style={{ justifyContent: 'center', marginTop: 8 }}>
@@ -253,6 +303,47 @@ export default function PatientBook() {
                   <div className="confirm-row"><span className="muted">Costo</span><strong>{fmtPrice(spec.price)}</strong></div>
                   <div className="confirm-row"><span className="muted">Ubicación</span><strong>{consultorioOf(consultorios, doctors, doctor.id)?.nombre} · {consultorioOf(consultorios, doctors, doctor.id)?.piso}</strong></div>
                 </div>
+                <div className="pay-plan">
+                  <p className="bold">Asegura tu cita pagando en línea</p>
+                  <p className="small muted">Elige cuánto pagas ahora; el saldo lo abonas en recepción el día de la cita.</p>
+                  <div className="pay-plan-grid">
+                    <button
+                      type="button"
+                      className={`pay-plan-opt ${payPlan === 'adelanto' ? 'pay-plan-opt-selected' : ''}`}
+                      onClick={() => setPayPlan('adelanto')}
+                    >
+                      <span className="pay-plan-reco">Recomendado</span>
+                      <span className="pay-plan-amount">{fmtPrice(halfPrice)}</span>
+                      <span className="pay-plan-name">Abono 50%</span>
+                      <small className="muted">Asegura tu horario ahora y paga la mitad restante en caja.</small>
+                    </button>
+                    <button
+                      type="button"
+                      className={`pay-plan-opt ${payPlan === 'total' ? 'pay-plan-opt-selected' : ''}`}
+                      onClick={() => setPayPlan('total')}
+                    >
+                      <span className="pay-plan-amount">{fmtPrice(price)}</span>
+                      <span className="pay-plan-name">Pago total 100%</span>
+                      <small className="muted">Paga todo en línea y llega solo a tu consulta.</small>
+                    </button>
+                    <button
+                      type="button"
+                      className={`pay-plan-opt ${payPlan === 'reception' ? 'pay-plan-opt-selected' : ''}`}
+                      onClick={() => setPayPlan('reception')}
+                    >
+                      <span className="pay-plan-amount">S/ 0</span>
+                      <span className="pay-plan-name">Pagar en caja</span>
+                      <small className="muted">Sin pago en línea; abonas el día de la cita en recepción.</small>
+                    </button>
+                  </div>
+                  {payPlan !== 'reception' && (
+                    <p className="row pay-plan-secure">
+                      <IconCreditCard size={15} />
+                      <span className="tiny">Pagas con tarjeta a través de una pasarela segura.</span>
+                      <IconShield size={15} />
+                    </p>
+                  )}
+                </div>
                 <Textarea
                   label="Motivo de consulta (opcional)"
                   placeholder="Ej. Dolor de cabeza desde hace 3 días…"
@@ -275,10 +366,11 @@ export default function PatientBook() {
                 <ul className="confirm-tips">
                   <li><IconClock size={15} /> Llega 10 minutos antes con tu DNI.</li>
                   <li><IconCalendar size={15} /> Puedes reprogramar hasta 12 horas antes sin costo.</li>
-                  <li><IconCheck size={15} /> Realiza el pago en caja; sin pago no podrás hacer check-in.</li>
+                  <li><IconCheck size={15} /> Si pagas en línea (50% o 100%), tu cita queda asegurada y el check-in se habilita automáticamente.</li>
+                  <li><IconCreditCard size={15} /> Si eliges pagar en caja, sin pago no podrás hacer check-in.</li>
                 </ul>
                 <Button variant="primary" size="xl" full icon={IconCalendarCheck} onClick={() => setConfirmOpen(true)}>
-                  Confirmar reserva
+                  {payPlan === 'reception' ? 'Confirmar reserva' : `Confirmar y pagar ${fmtPrice(payPlan === 'adelanto' ? halfPrice : price)}`}
                 </Button>
                 <Button variant="ghost" full className="mt-1" onClick={() => setStep(2)} icon={IconChevronLeft}>Cambiar horario</Button>
               </Card>
@@ -297,6 +389,20 @@ export default function PatientBook() {
         confirmLabel="Sí, confirmar cita"
         tone="primary"
         icon={IconCalendarCheck}
+      />
+
+      {/* ——— Pasarela de pago (50% / 100%) ——— */}
+      <PaymentGateway
+        open={gatewayOpen}
+        onClose={() => setGatewayOpen(false)}
+        amount={gatewayMeta?.amount}
+        label={gatewayMeta?.label}
+        rows={[
+          { label: 'Especialidad', value: spec?.name },
+          { label: 'Médico', value: doctor?.name },
+          { label: 'Fecha', value: `${fmtDate(slot?.date)} ${slot?.time}` },
+        ]}
+        onSuccess={(info) => finalizeBooking({ ...info, type: payPlan })}
       />
 
       {/* ——— Conflicto de concurrencia (horario ya no disponible) ——— */}

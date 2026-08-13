@@ -150,11 +150,11 @@ export const INITIAL_APPOINTMENTS = [
     id: 'C-1041', patientId: 'p3', doctorId: 'd4', specialtyId: 'ginecologia',
     date: '2026-08-05', time: '11:00', duration: 30, status: 'en_espera_triaje',
     reason: 'Control prenatal de 24 semanas.',
-    diag: null, triage: null, checkInTime: '08:05',
+    diag: null, triage: null, checkInTime: '08:05', turno: 'A-001',
   },
   {
     id: 'C-1040', patientId: 'p2', doctorId: 'd2', specialtyId: 'medicina',
-    date: '2026-08-05', time: '14:30', duration: 30, status: 'pagada',
+    date: '2026-08-05', time: '14:30', duration: 30, status: 'pagada', paidType: 'adelanto',
     reason: 'Dolor abdominal recurrente.',
     diag: null, triage: null, checkInTime: null,
   },
@@ -162,13 +162,13 @@ export const INITIAL_APPOINTMENTS = [
     id: 'C-1043', patientId: 'p5', doctorId: 'd1', specialtyId: 'medicina',
     date: '2026-08-05', time: '10:00', duration: 30, status: 'en_espera_triaje',
     reason: 'Fiebre y dolor de garganta desde hace 2 días.',
-    diag: null, triage: null, checkInTime: '08:12',
+    diag: null, triage: null, checkInTime: '08:12', turno: 'A-002',
   },
   {
     id: 'C-1044', patientId: 'p4', doctorId: 'd1', specialtyId: 'medicina',
     date: '2026-08-05', time: '11:00', duration: 30, status: 'triaje_completado',
     reason: 'Dolor de cabeza recurrente y mareos.',
-    diag: null, checkInTime: '08:20',
+    diag: null, checkInTime: '08:20', turno: 'A-003',
     triage: {
       pa: '118/76', temp: '36.8', fc: '80', peso: '71', talla: '1.74',
       motivo: 'Cefalea recurrente desde hace una semana, mareos ocasionales.',
@@ -216,11 +216,12 @@ export const INITIAL_APPOINTMENTS = [
 ]
 
 export const INITIAL_PAYMENTS = [
-  { id: 'P-0813', appointmentId: 'C-1041', patientId: 'p3', amount: 80, method: 'Efectivo', date: '2026-08-05 08:02', status: 'pagado', receipt: 'R-2026-0813', verifiedBy: 'Sofía Mendoza' },
-  { id: 'P-0810', appointmentId: 'C-1039', patientId: 'p1', amount: 50, method: 'Yape', date: '2026-08-04 09:40', status: 'pagado', receipt: 'R-2026-0810', verifiedBy: 'Sofía Mendoza' },
-  { id: 'P-0805', appointmentId: 'C-1031', patientId: 'p1', amount: 55, method: 'Efectivo', date: '2026-07-22 08:15', status: 'pagado', receipt: 'R-2026-0805', verifiedBy: 'Raúl Cabrera' },
-  { id: 'P-0801', appointmentId: 'C-1027', patientId: 'p1', amount: 50, method: 'Transferencia', date: '2026-06-18 08:05', status: 'pagado', receipt: 'R-2026-0801', verifiedBy: 'Sofía Mendoza' },
-  { id: 'P-0814', appointmentId: 'C-1050', patientId: 'p1', amount: 120, method: 'Yape', date: '2026-08-04 18:22', status: 'pendiente_verificacion', receipt: null },
+  { id: 'P-0813', appointmentId: 'C-1041', patientId: 'p3', amount: 80, method: 'Efectivo', date: '2026-08-05 08:02', status: 'pagado', receipt: 'R-2026-0813', verifiedBy: 'Sofía Mendoza', paidType: 'total' },
+  { id: 'P-0809', appointmentId: 'C-1040', patientId: 'p2', amount: 25, method: 'Tarjeta (pasarela)', date: '2026-08-05 07:58', status: 'pagado', receipt: 'R-2026-0809', verifiedBy: 'Sistema', paidType: 'adelanto', gateway: true },
+  { id: 'P-0810', appointmentId: 'C-1039', patientId: 'p1', amount: 50, method: 'Yape', date: '2026-08-04 09:40', status: 'pagado', receipt: 'R-2026-0810', verifiedBy: 'Sofía Mendoza', paidType: 'total' },
+  { id: 'P-0805', appointmentId: 'C-1031', patientId: 'p1', amount: 55, method: 'Efectivo', date: '2026-07-22 08:15', status: 'pagado', receipt: 'R-2026-0805', verifiedBy: 'Raúl Cabrera', paidType: 'total' },
+  { id: 'P-0801', appointmentId: 'C-1027', patientId: 'p1', amount: 50, method: 'Transferencia', date: '2026-06-18 08:05', status: 'pagado', receipt: 'R-2026-0801', verifiedBy: 'Sofía Mendoza', paidType: 'total' },
+  { id: 'P-0814', appointmentId: 'C-1050', patientId: 'p1', amount: 120, method: 'Yape', date: '2026-08-04 18:22', status: 'pendiente_verificacion', receipt: null, paidType: 'total' },
 ]
 
 export const INITIAL_WAITLIST = [

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo, useCallback } from 'react'
+import React, { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react'
 import {
   DOCTORS, PATIENTS, ME, SPECIALTIES, CONSULTORIOS, NURSE, INITIAL_APPOINTMENTS, INITIAL_PAYMENTS,
   INITIAL_WAITLIST, AUDIT_LOG, USERS,
@@ -8,11 +8,65 @@ const AppContext = createContext(null)
 
 export const useApp = () => useContext(AppContext)
 
+export const QUEUE_TODAY = '2026-08-05'
+
+export const QUEUE_PIPELINE = ['en_espera_triaje', 'en_triaje', 'triaje_completado', 'en_atencion']
+
+const STORAGE_KEY = 'procitas-appointments-v1'
+
 let seq = 2000
+
+export function turnoOf(a) {
+  const m = /^A-0*(\d+)$/.exec(a.turno || '')
+  return m ? Number(m[1]) : Number.MAX_SAFE_INTEGER
+}
+
+export function nextTurno(appointments) {
+  const max = appointments
+    .filter((x) => x.turno)
+    .reduce((acc, x) => Math.max(acc, turnoOf(x)), 0)
+  return `A-${String(max + 1).padStart(3, '0')}`
+}
+
+export function queuedToday(appointments, date = QUEUE_TODAY) {
+  return appointments
+    .filter((a) => a.date === date && QUEUE_PIPELINE.includes(a.status))
+    .sort((a, b) => turnoOf(a) - turnoOf(b))
+}
 
 export default function AppProvider({ children }) {
   const [auth, setAuth] = useState({ role: 'paciente', user: { ...ME, role: 'paciente' } })
-  const [appointments, setAppointments] = useState(INITIAL_APPOINTMENTS)
+  const [appointments, setAppointments] = useState(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY)
+      if (raw) return JSON.parse(raw)
+    } catch (e) {
+      /* almacenamiento no disponible */
+    }
+    return INITIAL_APPOINTMENTS
+  })
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments))
+    } catch (e) {
+      /* almacenamiento no disponible */
+    }
+  }, [appointments])
+
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (e.key === STORAGE_KEY && e.newValue) {
+        try {
+          setAppointments(JSON.parse(e.newValue))
+        } catch (err) {
+          /* ignore */
+        }
+      }
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [])
   const [payments, setPayments] = useState(INITIAL_PAYMENTS)
   const [waitlist, setWaitlist] = useState(INITIAL_WAITLIST)
   const [users, setUsers] = useState(USERS)
@@ -105,8 +159,11 @@ export default function AppProvider({ children }) {
     setWaitlist((w) => w.map((x) => (x.id === wlId ? { ...x, status: 'expirada', offer: null } : x)))
   }, [])
 
-  const sendToTriage = useCallback((id, patientName, consultorio) => {
-    setAppointments((a) => a.map((x) => (x.id === id ? { ...x, status: 'en_espera_triaje', checkInTime: 'Ahora' } : x)))
+  const sendToTriage = useCallback((id, patientName, consultorio, turno) => {
+    setAppointments((a) => {
+      const next = turno || nextTurno(a)
+      return a.map((x) => (x.id === id ? { ...x, status: 'en_espera_triaje', checkInTime: 'Ahora', turno: next } : x))
+    })
     pushAudit({ user: 'sofia.mendoza@cmas.com', action: 'Check-in presencial', detail: `${patientName} enviado a Triaje · ${consultorio}`, sev: 'info', icon: 'check' })
   }, [pushAudit])
 
@@ -124,13 +181,36 @@ export default function AppProvider({ children }) {
     pushAudit({ user: 'rosa.quispe@cmas.com', action: 'Atención iniciada', detail: `Cita ${id} iniciada por el médico`, sev: 'info', icon: 'stethoscope' })
   }, [pushAudit])
 
+  const finalizeTriage = useCallback((id, triageData) => {
+    setAppointments((a) => a.map((x) =>
+      x.id === id
+        ? {
+            ...x,
+            status: 'triaje_completado',
+            triage: triageData || x.triage || { motivo: x.reason, alergias: 'Ninguna', observaciones: 'Triaje registrado desde la lista de espera.', nurseName: 'Lic. Diana Prado Peña', at: 'Ahora' },
+          }
+        : x,
+    ))
+    pushAudit({ user: 'diana.prado@cmas.com', action: 'Triaje completado', detail: `Triaje de la cita ${id} enviado al médico`, sev: 'info', icon: 'check' })
+  }, [pushAudit])
+
+  const markAttended = useCallback((id) => {
+    setAppointments((a) => a.map((x) => (x.id === id ? { ...x, status: 'atendida' } : x)))
+    pushAudit({ user: 'diana.prado@cmas.com', action: 'Paciente atendido', detail: `El paciente de la cita ${id} completó su atención`, sev: 'info', icon: 'check' })
+  }, [pushAudit])
+
+  const resetDemo = useCallback(() => {
+    setAppointments(INITIAL_APPOINTMENTS)
+    pushAudit({ user: 'demo', action: 'Demo restablecida', detail: 'La cola del día volvió a su estado inicial', sev: 'info', icon: 'refresh' })
+  }, [pushAudit])
+
   const value = useMemo(
     () => ({
       auth, login, logout,
       appointments, setAppointments, updateAppointment, bookAppointment,
       payments, addPayment,
       waitlist, enrollWaitlist, offerWaitlist, confirmOffer, rejectOffer, expireOffer,
-      sendToTriage, startTriage, completeTriage, startAttention,
+      sendToTriage, startTriage, completeTriage, startAttention, finalizeTriage, markAttended, resetDemo,
       users, setUsers, audit, pushAudit, settings, setSettings,
       doctors: DOCTORS, patients: PATIENTS, specialties: SPECIALTIES,
       consultorios: CONSULTORIOS, nurse: NURSE,
@@ -138,7 +218,7 @@ export default function AppProvider({ children }) {
     [auth, appointments, payments, waitlist, users, audit, settings,
       login, logout, updateAppointment, bookAppointment, addPayment,
       enrollWaitlist, offerWaitlist, confirmOffer, rejectOffer, expireOffer,
-      sendToTriage, startTriage, completeTriage, startAttention, pushAudit]
+      sendToTriage, startTriage, completeTriage, startAttention, finalizeTriage, markAttended, resetDemo, pushAudit]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

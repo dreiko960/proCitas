@@ -1,0 +1,107 @@
+.wq-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.wq-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wq-stat strong { font-size: var(--fs-xl); font-weight: 800; color: var(--primary-800); line-height: 1.1; }
+.wq-stat span { font-size: var(--fs-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+.wq-stat-live { justify-content: center; background: var(--primary-50); border-color: var(--primary-300); }
+.wq-stat-live .live-chip {
+  display: inline-flex; align-items: center; gap: 7px; align-self: flex-start;
+  font-size: var(--fs-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--success);
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  padding: 5px 12px; border-radius: 99px;
+  margin-bottom: 4px;
+}
+.wq-stat-live .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulseDot 1.2s infinite; }
+
+.wq-grid { grid-template-columns: 1.3fr 1fr; align-items: start; gap: 22px; }
+.wq-sec-title { font-size: var(--fs-base); color: var(--text); display: flex; align-items: center; gap: 8px; margin: 0 0 12px; }
+.wq-count { background: var(--primary-100); color: var(--primary-800); font-weight: 800; font-size: var(--fs-xs); padding: 2px 9px; border-radius: 999px; }
+.wq-count-accent { background: var(--coral-100); color: var(--coral-600); }
+.wq-count-ok { background: var(--success-bg); color: var(--success); }
+
+.wq-list { display: flex; flex-direction: column; gap: 14px; }
+
+.wq-next-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: var(--fs-xs); font-weight: 800; letter-spacing: 0.06em;
+  color: var(--primary-700);
+  background: var(--primary-100);
+  border: 1px solid var(--primary-300);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 8px;
+}
+
+.wq-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.wq-card:hover { box-shadow: var(--shadow-sm); border-color: var(--primary-300); }
+.wq-in-triaje { border-color: var(--primary-300); background: var(--bg-soft); box-shadow: inset 4px 0 0 var(--primary-500); }
+.wq-in-consulta { border-color: var(--success-border); background: var(--success-bg); box-shadow: inset 4px 0 0 var(--success); }
+
+.wq-card-head { display: flex; align-items: center; gap: 12px; }
+.wq-turno {
+  flex-shrink: 0;
+  min-width: 52px;
+  text-align: center;
+  font-size: var(--fs-md);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--primary-800);
+  background: var(--primary-50);
+  border: 1px solid var(--primary-200);
+  border-radius: var(--r-md);
+  padding: 8px 10px;
+  line-height: 1;
+}
+.wq-turno-triaje { background: var(--primary-100); border-color: var(--primary-400); }
+.wq-turno-consulta { background: var(--success-bg); border-color: var(--success-border); color: var(--success); }
+.wq-turno-done { min-width: 44px; font-size: var(--fs-sm); color: var(--text-muted); background: var(--surface-muted); border-color: var(--border-strong); }
+
+.wq-meta { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: var(--fs-sm); color: var(--text-secondary); }
+.wq-wait-warn { color: var(--coral-600); font-weight: 700; }
+.wq-card-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.wq-card-actions .btn { flex: 1; min-width: 160px; }
+
+.wq-done { margin-top: 26px; }
+.wq-done-list { display: flex; flex-direction: column; gap: 8px; }
+.wq-done-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 8px 12px;
+}
+
+@media (max-width: 900px) {
+  .wq-strip { grid-template-columns: repeat(2, 1fr); }
+  .wq-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .wq-strip { grid-template-columns: 1fr 1fr; }
+  .wq-card-actions .btn { min-width: 100%; }
+}

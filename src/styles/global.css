@@ -114,4 +114,10 @@ button { font-family: var(--font); }
   :root {
     --sidebar-w: 0px;
   }
+  .grid { grid-template-columns: 1fr !important; }
+  .row { flex-wrap: wrap; }
+  .row-between { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 14px; }
 }

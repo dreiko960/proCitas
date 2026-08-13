@@ -12,3 +12,10 @@
 .page-title { font-size: var(--fs-xl); letter-spacing: -0.02em; }
 .page-subtitle { color: var(--text-muted); margin-top: 4px; font-size: var(--fs-sm); }
 .page-head-action { display: flex; align-items: center; gap: 10px; }
+
+@media (max-width: 768px) {
+  .page-head { flex-direction: column; }
+  .page-head-action { width: 100%; flex-wrap: wrap; gap: 8px; }
+  .page-head-action .btn { flex: 1 1 auto; }
+  .page-title { font-size: var(--fs-lg); }
+}

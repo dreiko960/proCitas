@@ -19,3 +19,8 @@
 @media (max-width: 768px) {
   .diag-side { order: -1; }
 }
+@media (max-width: 480px) {
+  .diag-form-card { padding: 18px; }
+  .diag-patient { flex-wrap: wrap; }
+  .diag-state { flex-wrap: wrap; }
+}

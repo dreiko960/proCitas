@@ -8,7 +8,7 @@ import { Select, Input } from '../../components/ui/Field'
 import EmptyState from '../../components/ui/EmptyState'
 import { useApp } from '../../context/AppContext'
 import { useToast } from '../../components/ui/Toast'
-import { findDoctor, findSpecialty, fmtPrice } from '../../utils/helpers'
+import { findDoctor, findSpecialty, fmtPrice, fmtPayType } from '../../utils/helpers'
 import { IconWallet, IconPdf, IconDownload, IconUpload, IconClock, IconCheckCircleFilled } from '../../components/Icons'
 import './Payments.css'
 
@@ -20,23 +20,34 @@ export default function PatientPayments() {
   const [method, setMethod] = useState('Yape')
   const [amount, setAmount] = useState('')
   const [ref, setRef] = useState('')
+  const [payType, setPayType] = useState('total')
   const [errors, setErrors] = useState({})
 
   const unpaidAppointments = appointments.filter((a) =>
     a.patientId === auth.user.id &&
-    ['confirmada', 'reprogramada'].includes(a.status) &&
+    ['confirmada', 'reprogramada', 'agendada'].includes(a.status) &&
     !payments.some((p) => p.appointmentId === a.id && p.status === 'pagado')
   )
 
   const [targetAppt, setTargetAppt] = useState('')
 
   const openDeclare = () => {
-    setTargetAppt(unpaidAppointments[0]?.id || '')
-    setAmount(unpaidAppointments[0] ? String(findSpecialty(specialties, unpaidAppointments[0].specialtyId)?.price || '') : '')
+    const first = unpaidAppointments[0]
+    setTargetAppt(first?.id || '')
+    const firstPrice = findSpecialty(specialties, first?.specialtyId)?.price || 0
+    setAmount(first ? String(firstPrice) : '')
+    setPayType('total')
     setMethod('Yape')
     setRef('')
     setErrors({})
     setDeclareOpen(true)
+  }
+
+  const pickDeclareType = (t) => {
+    setPayType(t)
+    const appt = appointments.find((a) => a.id === targetAppt)
+    const price = findSpecialty(specialties, appt?.specialtyId)?.price || 0
+    setAmount(String(t === 'adelanto' ? Math.round(price / 2) : price))
   }
 
   const submitDeclare = (e) => {
@@ -52,7 +63,7 @@ export default function PatientPayments() {
     }
     const appt = appointments.find((a) => a.id === targetAppt)
     const spec = findSpecialty(specialties, appt.specialtyId)
-    addPayment({ appointmentId: targetAppt, patientId: auth.user.id, amount: Number(amount), method, status: 'pendiente_verificacion', opRef: ref })
+    addPayment({ appointmentId: targetAppt, patientId: auth.user.id, amount: Number(amount), method, status: 'pendiente_verificacion', opRef: ref, paidType: payType })
     updateAppointment(targetAppt, {}, null)
     setDeclareOpen(false)
     toast('Declaración enviada a recepción. Verificaremos en menos de 15 minutos.', { type: 'success', title: 'Pago en verificación' })
@@ -82,7 +93,10 @@ export default function PatientPayments() {
                 <div className="pay-head">
                   <span className="pay-icon"><IconWallet size={20} /></span>
                   <div className="grow">
-                    <p className="bold">{spec?.name} · {fmtPrice(p.amount)}</p>
+                    <p className="bold">
+                      {spec?.name} · {fmtPrice(p.amount)}
+                      {p.paidType && <span className="pay-type-chip">{fmtPayType(p.paidType)}</span>}
+                    </p>
                     <p className="small muted">{appt ? `${findDoctor(doctors, appt.doctorId)?.name} · ${appt.date} ${appt.time}` : p.id} · {p.date}</p>
                     {p.opRef && <p className="tiny muted">Operación {p.method}: {p.opRef}</p>}
                   </div>
@@ -133,7 +147,28 @@ export default function PatientPayments() {
               </select>
               {errors.target && <p className="field-msg field-msg-error">{errors.target}</p>}
             </div>
-            <Input label="Monto (S/)" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} error={errors.amount} hint="Prellenado según especialidad, editable." />
+            <div className="field">
+              <label className="field-label">¿Cuánto pagas?</label>
+              <div className="pay-declare-type">
+                <button
+                  type="button"
+                  className={`pay-declare-opt ${payType === 'adelanto' ? 'pay-declare-opt-selected' : ''}`}
+                  onClick={() => pickDeclareType('adelanto')}
+                >
+                  <strong>Abono 50%</strong>
+                  <small className="muted">La mitad ahora; el resto en caja.</small>
+                </button>
+                <button
+                  type="button"
+                  className={`pay-declare-opt ${payType === 'total' ? 'pay-declare-opt-selected' : ''}`}
+                  onClick={() => pickDeclareType('total')}
+                >
+                  <strong>Pago total 100%</strong>
+                  <small className="muted">Todo el costo de la cita.</small>
+                </button>
+              </div>
+            </div>
+            <Input label="Monto (S/)" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} error={errors.amount} hint="Prellenado según especialidad y tipo de pago, editable." />
             <Select label="Método de pago" value={method} onChange={(e) => setMethod(e.target.value)}>
               <option>Yape</option>
               <option>Plin</option>

@@ -232,3 +232,11 @@ export const IconCheckboxOff = (p) => (
 export const IconMore = (p) => (
   <S {...p}><circle cx="5" cy="12" r="1.5" fill="currentColor" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /><circle cx="19" cy="12" r="1.5" fill="currentColor" /></S>
 )
+export const IconMonitor = (p) => (
+  <S {...p}><rect x="3" y="4" width="18" height="13" rx="3" /><path d="M8 21h8M12 17v4" /></S>
+)
+export const IconPlay = (p) => <S {...p}><path d="M6 4.5v15l13-7.5Z" fill="currentColor" stroke="none" /></S>
+export const IconPause = (p) => <S {...p}><path d="M8 5v14M16 5v14" strokeWidth="2.4" /></S>
+export const IconMegaphone = (p) => (
+  <S {...p}><path d="M3 11v2a1 1 0 0 0 1 1h2l4 4a1 1 0 0 0 1.7-.7V5.7A1 1 0 0 0 10 5L5 9H4a1 1 0 0 0-1 1Z" /><path d="M19 9a3 3 0 0 1 0 6M21 6a7 7 0 0 1 0 12" /></S>
+)

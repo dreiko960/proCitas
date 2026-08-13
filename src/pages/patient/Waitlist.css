@@ -43,3 +43,9 @@
   animation: shimmer 3s infinite linear;
 }
 .wl-position-num { font-weight: 800; color: var(--primary-800); }
+
+@media (max-width: 480px) {
+  .wl-urgent-banner { flex-wrap: wrap; padding: 16px 18px; }
+  .wl-entry-head { flex-wrap: wrap; gap: 10px; padding: 16px; }
+  .wl-entry-body { padding: 0 16px 16px; }
+}

@@ -5,7 +5,7 @@ import Badge from '../../components/ui/Badge'
 import { Input } from '../../components/ui/Field'
 import { Avatar } from '../../components/ui/Misc'
 import EmptyState from '../../components/ui/EmptyState'
-import { useApp } from '../../context/AppContext'
+import { useApp, nextTurno } from '../../context/AppContext'
 import { useToast } from '../../components/ui/Toast'
 import { findPatient, findSpecialty, findDoctor, findConsultorio } from '../../utils/helpers'
 import { IconSearch, IconCheckCircle, IconFirstAid, IconClock, IconMapPin } from '../../components/Icons'
@@ -34,9 +34,10 @@ export default function ReceptionCheckin() {
     const patient = findPatient(patients, a.patientId)
     const doctor = findDoctor(doctors, a.doctorId)
     const room = findConsultorio(consultorios, doctor?.consultorioId)
-    sendToTriage(a.id, patient?.name, room?.nombre || 'Consultorio')
+    const turno = nextTurno(appointments)
+    sendToTriage(a.id, patient?.name, room?.nombre || 'Consultorio', turno)
     setDoneIds((d) => [...d, a.id])
-    toast(`${patient?.name} enviado a Triaje — ${room?.nombre}.`, { type: 'success', title: 'Check-in registrado' })
+    toast(`${patient?.name} enviado a Triaje — ${room?.nombre}. Turno ${turno} en la pantalla.`, { type: 'success', title: 'Check-in registrado' })
   }
 
   return (
