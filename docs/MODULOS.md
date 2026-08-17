@@ -158,17 +158,25 @@ Todas las páginas son **responsive móvil** con dos breakpoints principales:
 
 ## Módulo 5 · Historial clínico del paciente
 
-**Propósito.** Línea de tiempo con las atenciones documentadas del paciente (diagnósticos y triajes).
+**Propósito.** Línea de tiempo con las atenciones documentadas del paciente (diagnóstico, notas, triaje) y **descarga en PDF real** con membrete oficial de la clínica.
 
 **Ruta.** `/paciente/historial` (`PatientHistory.jsx`).
 
 **Flujo:**
 - Filtra citas `atendida`/`documentada` del paciente, ordenadas de más reciente a más antigua.
-- Cada entrada es expandible: muestra diagnóstico (`diag.dx`), notas del médico, costo y N.º de cita.
-- **Descarga de PDF**: por cita (modal de confirmación) o el historial completo desde el encabezado. La descarga es **simulada** (solo toast).
+- Cada entrada es expandible y muestra el historial **completo**:
+  - Metadatos: fecha, hora, duración, consultorio, turno `A-00X` y N.º de cita.
+  - Motivo de consulta (`a.reason`).
+  - Diagnóstico (`diag.dx`) con badge de severidad (`diag.severity`: Leve/Moderada/Severa) y notas/indicaciones del médico.
+  - Triaje de enfermería cuando existe: signos vitales (PA, temperatura, FC, peso, talla) en grilla, alergias, motivo, observaciones y quién lo registró.
+  - Costo de la especialidad y estado de la cita.
+- **Descarga PDF real** (jsPDF + jspdf-autotable, cargado con `import()` diferido):
+  - Por cita → `generateAppointmentPdf` (`utils/clinicPdf.js`): "Resumen de atención clínica" con membrete, datos del paciente, datos de la atención, diagnóstico, triaje y firma del médico. Modal de confirmación previo.
+  - Completo → `generateClinicalRecordPdf`: "Historia clínica" con tabla resumen de atenciones, detalle por atención y bloque de validación al final.
+  - Ambos incluyen **membrete de la clínica** (escudo + nombre + RUC/dirección/teléfono, pie con paginación y documento N.° `RA-…`/`HC-…`) definido en `data/clinic.js` (`CLINIC`).
 - Encabezado: conteo de atenciones documentadas y nota de protección de datos.
 
-**Archivos.** `pages/patient/PatientHistory.jsx` + `History.css`.
+**Archivos.** `pages/patient/PatientHistory.jsx` + `History.css`, `utils/clinicPdf.js`, `data/clinic.js`.
 
 ---
 
@@ -292,7 +300,8 @@ Al confirmar: `enrollWaitlist` crea la entrada `en_espera` con posición aproxim
 
 ### Ficha/historial del paciente (`PatientDetail.jsx`)
 - Historial de atenciones del paciente con el médico autenticado, con **regla de acceso**: si no hay citas previas no canceladas del médico, muestra "Acceso denegado" (y registra auditoría del intento).
-- Muestra datos del paciente (DNI, edad, dirección), lista de citas descendentemente, triaje expandible de cada atención (PA, temp, FC, peso, talla, alergias, motivo, observaciones, enfermera) y descarga de ficha PDF simulada.
+- Muestra datos del paciente (DNI, edad, dirección), lista de citas descendentemente y triaje expandible de cada atención (PA, temp, FC, peso, talla, alergias, motivo, observaciones, enfermera).
+- **"Ficha (PDF)"**: descarga real de la ficha clínica (`generateClinicalRecordPdf` con título "FICHA CLÍNICA") con membrete oficial, historial completo con el médico y bloque de validación.
 
 ### Perfil profesional (`Profile.jsx`)
 - Tarjeta de identidad (avatar, rating ★4.8, experiencia, universidad, CMP) + formulario editable (especialidad, consultorio, teléfono, correo, bio con contador de 280 caracteres).
@@ -394,7 +403,7 @@ Al confirmar: `enrollWaitlist` crea la entrada `en_espera` con posición aproxim
 
 ### Cobros (`Payment.jsx`)
 - Dropdown con citas `agendada` sin pago registrado; monto prellenado según especialidad (editable), método (Efectivo, Yape, Plin, Transferencia, Tarjeta POS).
-- Al registrar: crea pago `pagado` (`paidType: 'total'`, `verifiedBy: 'Sofía Mendoza'`, recibo aleatorio `R-2026-XXXX`) y la cita pasa a `pagada`, habilitando el check-in. Modal con comprobante y descarga PDF simulada.
+- Al registrar: crea pago `pagado` (`paidType: 'total'`, `verifiedBy: 'Sofía Mendoza'`, recibo aleatorio `R-2026-XXXX`) y la cita pasa a `pagada`, habilitando el check-in. Modal con comprobante (membrete centralizado de `data/clinic.js`) y descarga PDF simulada.
 - **Completar abonos 50% (pasarela)**: panel que lista citas `pagada` con `paidType: 'adelanto'` que aún tienen saldo. Muestra total, abonado (via `paidTotalOf`) y saldo; botón "Cobrar S/ XX" abre modal con método y registra un pago `pagado` `paidType: 'total'` por el saldo; la cita pasa a `paidType: 'total'` (pagada al 100%).
 - Panel lateral con pagos `pendiente_verificacion`.
 

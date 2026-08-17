@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
 import Logo from '../../components/layout/Logo'
 import Button from '../../components/ui/Button'
+import { CLINIC } from '../../data/clinic'
 import { SpecialtyIcon } from '../../utils/helpers'
 import {
   IconCalendarCheck, IconSearch, IconSparkles, IconStethoscope, IconUser, IconHeartPulse,
@@ -178,11 +179,11 @@ export default function Landing() {
         <div className="container pub-footer-inner">
           <div>
             <Logo />
-            <p className="pub-footer-note">Centro Médico de Atención en Salud · Ayacucho, Perú</p>
+            <p className="pub-footer-note">{CLINIC.name} · {CLINIC.tagline}</p>
           </div>
           <div className="pub-footer-links">
-            <span className="row"><IconSmartphone size={16} /> (066) 31-2456</span>
-            <span className="row"><IconUser size={16} /> Jr. Dos de Mayo 245, Ayacucho</span>
+            <span className="row"><IconSmartphone size={16} /> {CLINIC.phone}</span>
+            <span className="row"><IconUser size={16} /> {CLINIC.address}</span>
             <Link to="/componentes" className="row pub-footer-link"><IconSparkles size={16} /> Referencia de componentes</Link>
           </div>
         </div>

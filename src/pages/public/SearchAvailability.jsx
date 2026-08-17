@@ -7,6 +7,7 @@ import { DoctorSearchCard } from '../../components/AppointmentCard'
 import EmptyState from '../../components/ui/EmptyState'
 import { useApp } from '../../context/AppContext'
 import { useToast } from '../../components/ui/Toast'
+import { CLINIC } from '../../data/clinic'
 import { findSpecialty, fmtDate } from '../../utils/helpers'
 import { IconSearch, IconCalendarX, IconSparkles, IconArrowRight, IconCalendar, IconMapPin, IconUser, IconSmartphone, IconClock } from '../../components/Icons'
 import './SearchAvailability.css'
@@ -167,12 +168,12 @@ export default function SearchAvailability() {
         <div className="container pub-footer-inner">
           <div>
             <Logo size="sm" />
-            <p className="pub-footer-note">Centro Médico de Atención en Salud · Ayacucho, Perú</p>
+            <p className="pub-footer-note">{CLINIC.name} · {CLINIC.tagline}</p>
           </div>
           <div className="pub-footer-links">
-            <span className="row"><IconSmartphone size={16} /> (066) 31-2456</span>
-            <span className="row"><IconMapPin size={16} /> Jr. Dos de Mayo 245, Ayacucho</span>
-            <span className="row"><IconUser size={16} /> Lunes a Sábado 08:00–17:30</span>
+            <span className="row"><IconSmartphone size={16} /> {CLINIC.phone}</span>
+            <span className="row"><IconMapPin size={16} /> {CLINIC.address}</span>
+            <span className="row"><IconUser size={16} /> {CLINIC.hours}</span>
           </div>
         </div>
       </footer>

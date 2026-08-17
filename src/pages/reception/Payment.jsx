@@ -7,6 +7,7 @@ import { Select, Input } from '../../components/ui/Field'
 import Modal from '../../components/ui/Modal'
 import { useApp } from '../../context/AppContext'
 import { useToast } from '../../components/ui/Toast'
+import { CLINIC } from '../../data/clinic'
 import { findPatient, findSpecialty, findDoctor, fmtDateFull, fmtPrice, fmtPayType, paidTotalOf } from '../../utils/helpers'
 import { IconWallet, IconCreditCard, IconPdf, IconDownload, IconCheckCircleFilled } from '../../components/Icons'
 import './Payment.css'
@@ -201,8 +202,8 @@ export default function ReceptionPayment() {
         {lastPayment && appt && (
           <div className="receipt">
             <div className="receipt-head">
-              <p className="bold">CENTRO MÉDICO CMAS</p>
-              <p className="tiny muted">Jr. Dos de Mayo 245 · Ayacucho · RUC 20451238741</p>
+              <p className="bold">{CLINIC.legalName}</p>
+              <p className="tiny muted">{CLINIC.address} · RUC {CLINIC.ruc}</p>
             </div>
             <div className="divider" />
             <div className="row-between"><span className="muted">N° Comprobante</span><strong>{lastPayment.receipt}</strong></div>
@@ -212,7 +213,7 @@ export default function ReceptionPayment() {
             <div className="row-between"><span className="muted">Atendió</span><strong>{lastPayment.verifiedBy}</strong></div>
             <div className="divider" />
             <div className="row-between receipt-total"><span>Total</span><strong>S/ {lastPayment.amount}</strong></div>
-            <p className="tiny muted center" style={{ marginTop: 10 }}>Documento emitido por sistema SGCM-CMAS</p>
+            <p className="tiny muted center" style={{ marginTop: 10 }}>Documento emitido por sistema {CLINIC.system}</p>
           </div>
         )}
       </Modal>

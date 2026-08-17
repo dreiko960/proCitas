@@ -53,6 +53,7 @@ El día de operación del prototipo es el **miércoles 05 de agosto de 2026** (c
 | Tipografía | Manrope (Google Fonts) |
 | Estado global | React Context + `useReducer`-style hooks (`src/context/AppContext.jsx`) |
 | Persistencia | `localStorage` (solo citas, clave `procitas-appointments-v1`) |
+| Generación de PDF | `jspdf` + `jspdf-autotable` (historial clínico y ficha del paciente; carga diferida con `import()`) |
 | Despliegue | Netlify (config en `netlify.toml`) |
 
 ---
@@ -113,9 +114,11 @@ proCitas/
     ├── context/
     │   └── AppContext.jsx         # Estado global + acciones + helpers de la cola
     ├── data/
-    │   └── mock.js                # TODOS los datos simulados (especialidades, citas, usuarios…)
+    │   ├── mock.js                # TODOS los datos simulados (especialidades, citas, usuarios…)
+    │   └── clinic.js              # ★ Datos de la clínica (nombre, dirección, RUC…) para membrete
     ├── utils/
-    │   └── helpers.js             # Funciones de ayuda y STATUS_LABEL
+    │   ├── helpers.js             # Funciones de ayuda y STATUS_LABEL
+    │   └── clinicPdf.js           # ★ Generador PDF (jsPDF): membrete, resumen por cita, historial/ficha
     ├── hooks/
     │   └── useCountdown.js        # Cuenta regresiva mm:ss (ofertas de cupo)
     ├── components/
@@ -191,7 +194,7 @@ El registro público (`/registro`) solo crea pacientes. El administrador crea el
 | `/paciente/reservar` | BookAppointment (wizard 3 pasos) |
 | `/paciente/citas` | MyAppointments (próximas/pasadas/canceladas) |
 | `/paciente/checkin` | PatientCheckin (confirmar llegada desde el móvil) |
-| `/paciente/historial` | PatientHistory (línea de tiempo clínica + PDF) |
+| `/paciente/historial` | PatientHistory (historial clínico completo + descarga PDF con membrete) |
 | `/paciente/lista-espera` | Waitlist (mis inscripciones) |
 | `/paciente/lista-espera/inscripcion` | WaitlistEnroll |
 | `/paciente/lista-espera/oferta` | WaitlistOffer (cupo con cuenta regresiva) |
@@ -366,7 +369,7 @@ Además: `check_in` (confirmó llegada desde el móvil, previo a triaje), `atend
 - **Reservar cita** en 3 pasos (especialidad → médico/horario → confirmar), con demo de conflicto de concurrencia (horarios alternativos) y **pago anticipado en línea** para asegurar la asistencia.
 - **Mis citas**: próximas / pasadas / canceladas; reprogramar, cancelar (con alerta de cancelación tardía <12 h) y check-in.
 - **Check-in móvil** (estado `check_in`) y aviso de "llegar 10 minutos antes con DNI".
-- **Historial clínico** en línea de tiempo expandible (diagnósticos, notas y triajes) con descarga de PDF simulada.
+- **Historial clínico** en línea de tiempo expandible: motivo de consulta, diagnóstico con severidad, notas e indicaciones del médico, triaje de enfermería completo (PA, temperatura, FC, peso, talla, alergias, observaciones), consultorio, turno y costo. **Descarga real en PDF** — por cita (resumen de atención con firma del médico) o el historial completo — con membrete oficial de la clínica (`utils/clinicPdf.js`).
 - **Lista de espera inteligente**: inscribirse por especialidad/médico/horario, ver posición `~N°`, recibir **ofertas de cupo** con cuenta regresiva de **15 min** (`useCountdown`), confirmar (crea la cita automáticamente) o rechazar (mantiene la posición). Si expira, el cupo pasa al siguiente.
 - **Pagos**: declarar pagos (Yape/Plin/Transferencia/Efectivo) eligiendo **Abono 50%** o **Pago total** → quedan `pendiente_verificacion` hasta que recepción los confirme (<15 min).
 - **Perfil** con validación por campo y cambio de contraseña simulado.
@@ -375,7 +378,7 @@ Además: `check_in` (confirmó llegada desde el móvil, previo a triaje), `atend
 - **Agenda del día** en timeline con filtros (todos / en camino / por atender / en atención / documentadas), banner de cola y simulador de cancelación en vivo.
 - **Disponibilidad**: grilla de 7 días × franjas de 30 min, detección de solapamientos; las citas confirmadas no se pierden.
 - **Atención**: pasa a `en_atencion` y luego registra diagnóstico (severidad + observaciones) → `documentada`.
-- **Detalle del paciente** protegido por "relación clínica vigente" (acceso denegado + auditoría si no hay citas previas).
+- **Detalle del paciente** protegido por "relación clínica vigente" (acceso denegado + auditoría si no hay citas previas). **Ficha clínica descargable en PDF** (historial completo con el médico, con membrete oficial).
 
 ### Enfermería
 - **Cola de triaje**: pacientes `en_espera_triaje` ordenados por tiempo de espera + triajes en progreso.
@@ -387,7 +390,7 @@ Además: `check_in` (confirmó llegada desde el móvil, previo a triaje), `atend
 - **Agenda general** del día (todos los médicos) con filtros por especialidad/médico.
 - **Registrar cita** (wizard 3 pasos + "alta rápida" de paciente) con pago opcional al confirmar.
 - **Check-in presencial**: marca la llegada de pacientes `pagada` y los envía a triaje **asignándoles su turno**.
-- **Cobros**: cobra citas pendientes, genera comprobante `R-2026-XXXX` y descarga PDF simulada. **Completa abonos 50%** pagados por la pasarela (cobra el saldo y deja la cita al 100%).
+- **Cobros**: cobra citas pendientes, genera comprobante `R-2026-XXXX` con membrete centralizado de la clínica (`data/clinic.js`). **Completa abonos 50%** pagados por la pasarela (cobra el saldo y deja la cita al 100%).
 - **Cancelaciones y reprogramaciones**, con alerta de cancelación tardía.
 - **★ Lista de espera**: tablero de gestión + botón "Abrir pantalla TV" (sección 11).
 
@@ -541,7 +544,8 @@ En *Admin → Configuración* (`src/pages/admin/Settings.jsx`) se editan (estado
 - **Datos y fechas fijos**: el día de operación es `2026-08-05` y la semana de reservas 05–11 de agosto (constantes en `mock.js` y `AppContext.jsx`). Varios componentes tienen fechas "duras" embebidas.
 - **Sincronización entre pestañas limitada**: solo `appointments` se sincroniza vía `localStorage` (mismo navegador). No hay tiempo real entre dispositivos distintos.
 - **Pasarela de pago simulada**: no se realiza ningún cobro real; los datos de tarjeta se validan solo de forma visual y el "pago" es una demora simulada con una operación ficticia `OP-2026-XXXX`.
-- **Acciones simuladas**: descarga de PDF, exportación CSV, envío de correos/SMS y notificaciones muestran solo un toast.
+- **Acciones simuladas**: la descarga de PDF del historial clínico del paciente y de la ficha del médico es **real** (`jspdf`); el comprobante de pago, la exportación CSV de reportes, el envío de correos/SMS y las notificaciones siguen mostrando solo un toast.
+- **PDF básico**: los documentos se generan con primitivas de `jsPDF` (texto, tablas y formas); no incluyen aún logos rasterizados, códigos QR ni firma digital. La generación del PDF no persiste un registro del documento emitido.
 - **Validación de roles solo visual**: las rutas no están protegidas por rol (cualquier usuario puede navegar a cualquier panel).
 - **Persistencia parcial**: pagos, lista de espera, usuarios, auditoría y configuración no persisten entre recargas.
 

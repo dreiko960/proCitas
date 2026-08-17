@@ -29,11 +29,37 @@
 .tl-chev-open { transform: rotate(180deg); }
 
 .tl-body { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 12px; }
-.tl-dx, .tl-notes { background: var(--bg-soft); border-radius: var(--r-md); padding: 14px 16px; }
+.tl-dx, .tl-notes, .tl-triage { background: var(--bg-soft); border-radius: var(--r-md); padding: 14px 16px; }
 .tl-dx { border-left: 4px solid var(--primary-600); }
 .tl-dx-label { display: inline-flex; align-items: center; gap: 7px; font-size: var(--fs-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary-700); margin-bottom: 6px; }
-.tl-dx-text { font-weight: 700; }
+.tl-dx-text { font-weight: 700; margin-bottom: 8px; }
 .tl-notes p { font-size: var(--fs-sm); }
+
+.tl-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--fs-xs); color: var(--text-muted); }
+.tl-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.tl-meta svg { color: var(--primary-600); }
+.tl-turno { font-weight: 800; color: var(--primary-700); }
+
+.tl-sev { display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 10px; border-radius: var(--r-full); }
+.tl-sev-leve { color: #15803d; background: var(--success-bg); border: 1px solid var(--success-border); }
+.tl-sev-moderada { color: #b45309; background: var(--warning-bg); border: 1px solid var(--warning-border); }
+.tl-sev-severa { color: #b91c1c; background: var(--danger-bg); border: 1px solid var(--danger-border); }
+
+.tl-vitals { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 10px; }
+.tl-vital { display: flex; flex-direction: column; gap: 2px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px 10px; }
+.tl-vital span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+.tl-vital strong { font-size: var(--fs-md); color: var(--primary-800); }
+.tl-triage-rows { display: flex; flex-direction: column; gap: 6px; }
+.tl-triage-row { display: grid; grid-template-columns: 130px 1fr; gap: 10px; font-size: var(--fs-sm); }
+.tl-triage-row span { color: var(--text-muted); }
+.tl-triage-row strong { font-weight: 600; }
+
+.tl-foot { padding-top: 4px; }
+
+@media (max-width: 640px) {
+  .tl-vitals { grid-template-columns: repeat(3, 1fr); }
+  .tl-triage-row { grid-template-columns: 110px 1fr; }
+}
 
 @media (max-width: 480px) {
   .tl-item { gap: 10px; }

@@ -6,6 +6,7 @@ import Badge from '../../components/ui/Badge'
 import { Card } from '../../components/ui/Card'
 import { Avatar } from '../../components/ui/Misc'
 import { useApp } from '../../context/AppContext'
+import { useToast } from '../../components/ui/Toast'
 import { findPatient, findSpecialty, findDoctor, findConsultorio } from '../../utils/helpers'
 import { IconShield, IconUserX, IconFileText, IconCalendar, IconDownload, IconCheckCircle, IconStethoscope, IconFirstAid, IconChevronDown, IconMapPin } from '../../components/Icons'
 import './PatientDetail.css'
@@ -14,6 +15,7 @@ export default function DoctorPatientDetail() {
   const { pid } = useParams()
   const navigate = useNavigate()
   const { patients, appointments, doctors, specialties, consultorios, auth } = useApp()
+  const toast = useToast()
   const [openTriage, setOpenTriage] = useState(null)
   const patient = findPatient(patients, pid)
 
@@ -46,6 +48,24 @@ export default function DoctorPatientDetail() {
 
   const history = relatedAppts.sort((a, b) => (a.date < b.date ? 1 : -1))
 
+  const downloadSheet = async () => {
+    try {
+      const { generateClinicalRecordPdf } = await import('../../utils/clinicPdf')
+      generateClinicalRecordPdf({
+        patient,
+        rows: history,
+        title: 'FICHA CLÍNICA',
+        filename: `ficha-clinica-${patient.name.replace(/\s+/g, '-').toLowerCase()}.pdf`,
+        doctors,
+        specialties,
+        consultorios,
+      })
+      toast('Ficha clínica descargada con membrete de la clínica.', { type: 'success', title: 'PDF generado' })
+    } catch {
+      toast('No se pudo generar la ficha. Intenta nuevamente.', { type: 'error', title: 'Error al descargar' })
+    }
+  }
+
   return (
     <div className="anim-in">
       <PageHeader title={patient.name} subtitle={`DNI ${patient.dni} · ${patient.age} años · ${patient.phone}`} back="/medico" />
@@ -62,7 +82,7 @@ export default function DoctorPatientDetail() {
                 <Badge status="pagado">Ficha activa</Badge>
               </div>
             </div>
-            <Button variant="outline" size="sm" icon={IconDownload} onClick={() => { /* */ }}>Ficha (PDF)</Button>
+            <Button variant="outline" size="sm" icon={IconDownload} onClick={downloadSheet}>Ficha (PDF)</Button>
           </div>
         </Card>
 
