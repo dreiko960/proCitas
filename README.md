@@ -5,6 +5,10 @@ Prototipo funcional de un sistema de gestión de citas médicas para el **Centro
 Todo el sistema funciona con datos simulados en memoria (sin backend): el estado vive en un `Context` global y se persiste/sincroniza en el navegador mediante `localStorage`.
 
 > **Documentación detallada de módulos:** para el desglose funcional y técnico de cada módulo (flujos paso a paso, reglas de negocio, estados, integraciones y archivos), ver [`docs/MODULOS.md`](docs/MODULOS.md).
+>
+> **Backend (producción):** para el plan integral del backend — base de datos PostgreSQL, contrato de API REST, integración de pagos Culqi, tiempo real, tareas programadas, seguridad y roadmap de implementación — ver [`docs/BACKEND.md`](docs/BACKEND.md).
+>
+> **Frontend (producción):** para el plan de evolución del frontend — estructura, data fetching con React Query, autenticación con guards, integración de APIs, pantalla TV en tiempo real, Culqi.js, PWA y roadmap — ver [`docs/FRONTEND.md`](docs/FRONTEND.md).
 
 ---
 
@@ -551,7 +555,7 @@ En *Admin → Configuración* (`src/pages/admin/Settings.jsx`) se editan (estado
 
 ### Siguientes pasos sugeridos
 
-1. **Backend real** (API REST/WebSocket) con autenticación, protección de rutas por rol y `authorization` por recurso.
+1. **Backend real** (API REST/WebSocket) con autenticación, protección de rutas por rol y `authorization` por recurso — plan completo de implementación en [`docs/BACKEND.md`](docs/BACKEND.md).
 2. **Tiempo real entre dispositivos** (WebSocket / Server-Sent Events) para que la TV funcione en pantallas y equipos distintos.
 3. **Configurar el TV por consultorio o servicio** (filtro de especialidad/zona) y pantallas secundarias por piso.
 4. **Asignación de turnos por cola/servicio** (p. ej. `T-001` para triaje y `C-001` para consulta) en lugar de una sola secuencia global.
